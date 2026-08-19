@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MadeBy-Parrot App - Builder</title>
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <h2>Elements</h2>
+            <div class="element" draggable="true" data-type="text">Text Block</div>
+            <div class="element" draggable="true" data-type="button">Button</div>
+            <div class="element" draggable="true" data-type="image">Image</div>
+        </aside>
+        
+        <main class="canvas-area">
+            <h1>Drag elements to the canvas</h1>
+            <div id="canvas" class="canvas"></div>
+        </main>
+    </div>
+
+    <div class="controls">
+        <button id="saveBtn">Save Design</button>
+        <button id="loadBtn">Load Design</button>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

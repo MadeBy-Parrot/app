@@ -1,0 +1,25 @@
+body { margin: 0; font-family: sans-serif; background: #f4f4f9; }
+.app-container { display: flex; height: 100vh; }
+
+.sidebar {
+    width: 200px; background: #fff; padding: 20px; border-right: 1px solid #ddd;
+}
+.sidebar h2 { font-size: 18px; margin-top: 0; }
+.element {
+    background: #232846; color: #fff; padding: 10px; margin-bottom: 10px;
+    text-align: center; border-radius: 8px; cursor: grab; user-select: none;
+}
+
+.canvas-area { flex: 1; padding: 20px; position: relative; }
+.canvas {
+    border: 2px dashed #ccc; min-height: 80vh; background: #fff;
+    padding: 20px; position: relative; border-radius: 12px;
+}
+
+.canvas-block {
+    padding: 15px; margin: 5px; border: 1px solid #ddd; background: #fafafa;
+    display: inline-block; cursor: move; position: relative;
+}
+
+.controls { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 10px; text-align: center; border-top: 1px solid #ddd; }
+.controls button { padding: 10px 20px; margin: 0 10px; border: none; border-radius: 8px; background: #2ECC71; color: #fff; cursor: pointer; }
