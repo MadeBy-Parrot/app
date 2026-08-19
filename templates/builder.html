@@ -105,7 +105,7 @@
         </div>
     </div>
 
-    <!-- Global Variables & Modular Scripts -->
+    <!-- Global Variables -->
     <script>
         window.SITE_ID = {{ site.id }};
         window.SITE_DATA = {{ site.data | safe }};
@@ -113,9 +113,13 @@
         window.UPLOAD_PRESET = "{{ upload_preset }}";
     </script>
     
-    <!-- Modular Category Scripts (place before builder.js) -->
+    <!-- ALL Modular Category Scripts -->
     <script src="{{ url_for('static', filename='js/builder_buttons.js') }}"></script>
     <script src="{{ url_for('static', filename='js/builder_navbars.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/builder_footers.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/builder_cards.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/builder_inputs.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/builder_searchbars.js') }}"></script>
     
     <!-- Main Builder Script -->
     <script src="{{ url_for('static', filename='js/builder.js') }}"></script>
