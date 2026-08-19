@@ -1,6 +1,4 @@
 // Main builder logic
-// Uses window.ELEMENT_LIBRARY populated by separate module files
-
 let siteId = window.SITE_ID;
 let elements = [];
 let currentView = 'pc';
@@ -146,10 +144,24 @@ function makeDraggable(w, el) {
     });
 }
 
+// ---------- DYNAMIC PROPERTIES PANEL ----------
 function openProperties(el) {
     const panel = document.getElementById('properties-panel');
     panel.style.display = 'block';
     panel.dataset.id = el.id;
+
+    // Show/Hide conditional fields based on element type
+    document.querySelectorAll('.prop-conditional').forEach(row => row.style.display = 'none');
+    if (el.type === 'button' || el.type === 'navbar' || el.type === 'footer') {
+        document.getElementById('propLinkRow').style.display = 'block';
+    }
+    if (el.type === 'image') {
+        document.getElementById('propImageRow').style.display = 'block';
+    }
+    if (el.type === 'input' || el.type === 'search') {
+        document.getElementById('propPlaceholderRow').style.display = 'block';
+    }
+
     const s = getStylesForView(el);
     document.getElementById('propText').value = s.text || '';
     document.getElementById('propLink').value = s.link || '';
@@ -160,6 +172,8 @@ function openProperties(el) {
     document.getElementById('propRadius').value = s.borderRadius || '8px';
     document.getElementById('propWidth').value = el.position.width + 'px';
     document.getElementById('propHeight').value = el.position.height + 'px';
+    document.getElementById('propPlaceholder').value = s.placeholder || '';
+    document.getElementById('propImageUrl').value = s.imageUrl || '';
 }
 
 document.getElementById('properties-panel').addEventListener('input', function(e) {
@@ -174,7 +188,9 @@ document.getElementById('properties-panel').addEventListener('input', function(e
         color: document.getElementById('propTextColor').value,
         fontSize: document.getElementById('propFontSize').value,
         padding: document.getElementById('propPadding').value,
-        borderRadius: document.getElementById('propRadius').value
+        borderRadius: document.getElementById('propRadius').value,
+        placeholder: document.getElementById('propPlaceholder').value,
+        imageUrl: document.getElementById('propImageUrl').value
     };
     const w = parseInt(document.getElementById('propWidth').value) || 200;
     const h = parseInt(document.getElementById('propHeight').value) || 50;
@@ -190,7 +206,7 @@ document.getElementById('properties-panel').addEventListener('input', function(e
     document.getElementById(el.id).classList.add('selected');
 });
 
-// Cloudinary
+// ---------- CLOUDINARY ----------
 async function handleImageUpload(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -215,6 +231,7 @@ async function handleImageUpload(e) {
     } catch (err) { alert('Upload failed'); }
 }
 
+// ---------- SAVE & PUBLISH ----------
 async function saveSite() {
     document.querySelectorAll('.element-wrapper').forEach(w => {
         const el = elements.find(e => e.id === w.id);

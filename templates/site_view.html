@@ -4,15 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ site.name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
     <style>
-        body { margin:0; background:#f7f8fc; }
+        body { margin:0; background:#f7f8fc; font-family:Inter, sans-serif; }
         .live-container { position:relative; width:100%; max-width:1366px; margin:0 auto; background:#fff; min-height:100vh; }
+        .element-wrapper { position:absolute; cursor:default; }
     </style>
 </head>
 <body>
     <div class="live-container" id="live">
-        <!-- JS রেন্ডার করবে -->
+        <!-- JS Render করবে -->
     </div>
     <script>
         const data = {{ site.data | safe }};
@@ -20,20 +25,24 @@
         if (data.elements && data.elements.length) {
             data.elements.forEach(el => {
                 const d = document.createElement('div');
-                d.style.cssText = `position:absolute; left:${el.position.left}px; top:${el.position.top}px; width:${el.position.width}px; height:${el.position.height}px;`;
-                // apply default styles (live site uses desktop default for simplicity)
-                if (el.defaultStyles) {
-                    if (el.defaultStyles.background) d.style.background = el.defaultStyles.background;
-                    if (el.defaultStyles.color) d.style.color = el.defaultStyles.color;
-                    if (el.defaultStyles.borderRadius) d.style.borderRadius = el.defaultStyles.borderRadius;
-                    if (el.defaultStyles.padding) d.style.padding = el.defaultStyles.padding;
-                    if (el.defaultStyles.fontSize) d.style.fontSize = el.defaultStyles.fontSize;
-                }
+                d.className = 'element-wrapper';
+                d.style.cssText = `left:${el.position.left}px; top:${el.position.top}px; width:${el.position.width}px; height:${el.position.height}px;`;
+                
+                // apply default styles (live site uses desktop default)
+                const s = el.defaultStyles || {};
+                if (s.background) d.style.background = s.background;
+                if (s.color) d.style.color = s.color;
+                if (s.borderRadius) d.style.borderRadius = s.borderRadius;
+                if (s.padding) d.style.padding = s.padding;
+                if (s.fontSize) d.style.fontSize = s.fontSize;
+                if (s.fontWeight) d.style.fontWeight = s.fontWeight;
+                if (s.border) d.style.border = s.border;
+                
                 d.innerHTML = el.html;
                 c.appendChild(d);
             });
         } else {
-            c.innerHTML = '<p style="padding:40px; text-align:center;">No content</p>';
+            c.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">This site has no content yet.</p>';
         }
     </script>
 </body>

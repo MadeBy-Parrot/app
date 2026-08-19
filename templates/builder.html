@@ -14,6 +14,9 @@
         .font-virgo { font-family: 'Virgo', 'Outfit', sans-serif; }
         body { margin:0; overflow:hidden; height:100vh; background:#f7f8fc; }
         .builder-body { display:flex; flex-direction:column; height:100vh; }
+        
+        /* Conditional Property Rows */
+        .prop-conditional { display: none; }
     </style>
 </head>
 <body class="builder-body">
@@ -66,10 +69,27 @@
                 <label>Text / Content</label>
                 <input type="text" id="propText" placeholder="Edit text here..." />
             </div>
-            <div class="prop-group">
+            
+            <!-- Conditional: Link (Buttons, Navbars, Footers) -->
+            <div class="prop-group prop-conditional" id="propLinkRow">
                 <label>Link URL</label>
                 <input type="text" id="propLink" placeholder="https://..." />
             </div>
+
+            <!-- Conditional: Image URL (Images) -->
+            <div class="prop-group prop-conditional" id="propImageRow">
+                <label>Image URL</label>
+                <input type="text" id="propImageUrl" placeholder="https://..." />
+                <button class="btn-cloudinary" onclick="document.getElementById('cloudinaryInput').click()">Upload Image</button>
+                <input type="file" id="cloudinaryInput" style="display:none;" accept="image/*">
+            </div>
+
+            <!-- Conditional: Placeholder (Inputs, Search Bars) -->
+            <div class="prop-group prop-conditional" id="propPlaceholderRow">
+                <label>Placeholder</label>
+                <input type="text" id="propPlaceholder" placeholder="Enter placeholder..." />
+            </div>
+
             <div class="prop-group">
                 <label>Background Color</label>
                 <input type="color" id="propBgColor" />
@@ -98,10 +118,6 @@
                 <label>Height</label>
                 <input type="text" id="propHeight" placeholder="50px" />
             </div>
-            <div class="prop-group">
-                <button class="btn-cloudinary" onclick="document.getElementById('cloudinaryInput').click()">Upload Image</button>
-                <input type="file" id="cloudinaryInput" style="display:none;" accept="image/*">
-            </div>
         </div>
     </div>
 
@@ -113,7 +129,7 @@
         window.UPLOAD_PRESET = "{{ upload_preset }}";
     </script>
     
-    <!-- ALL Modular Category Scripts (13 Categories Total) -->
+    <!-- ALL Modular Category Scripts -->
     <script src="{{ url_for('static', filename='js/builder_buttons.js') }}"></script>
     <script src="{{ url_for('static', filename='js/builder_navbars.js') }}"></script>
     <script src="{{ url_for('static', filename='js/builder_footers.js') }}"></script>
