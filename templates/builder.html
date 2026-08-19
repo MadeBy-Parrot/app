@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Builder - MadeBy-Parrot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <style>
+        @font-face { font-family: 'Virgo'; src: url('/fonts/Virgo.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+        .font-virgo { font-family: 'Virgo', 'Outfit', sans-serif; }
+        body { margin:0; overflow:hidden; height:100vh; background:#f7f8fc; }
+        .builder-body { display:flex; flex-direction:column; height:100vh; }
+    </style>
+</head>
+<body class="builder-body">
+    <!-- Top Bar (same as before) -->
+    <div id="topbar">
+        <div style="display:flex; align-items:center; gap:8px; min-width:200px;">
+            <span class="logo-p font-virgo">P</span>
+            <span class="logo-text font-outfit">MadeBy-Parrot</span>
+        </div>
+        <input type="text" class="site-name-input" value="{{ site.name }}" placeholder="Site Name" id="siteName" />
+        <div class="view-switcher">
+            <button class="view-btn" data-view="phone">Phone</button>
+            <button class="view-btn" data-view="tablet">Tablet</button>
+            <button class="view-btn active" data-view="pc">PC</button>
+            <button class="view-btn" data-view="tv">TV</button>
+            <button class="view-btn" data-view="landscape">Landscape</button>
+        </div>
+        <div style="display:flex; gap:8px; margin-left:auto;">
+            <button id="saveBtn" class="btn-primary" style="padding:8px 16px; font-size:14px;">Save</button>
+            <button id="publishBtn" class="btn-publish" style="padding:8px 16px; font-size:14px;">Publish</button>
+            <button id="previewBtn" class="btn-outline" style="padding:8px 16px; font-size:14px;">Preview</button>
+        </div>
+    </div>
+
+    <!-- Main Area -->
+    <div id="main-area">
+        <!-- Left Panel -->
+        <div id="assets-panel"></div>
+        
+        <!-- Canvas -->
+        <div id="canvas-container">
+            <div id="canvas"></div>
+        </div>
+        
+        <!-- Properties Panel (Fully Updated) -->
+        <div id="properties-panel">
+            <h4>Properties</h4>
+            <div class="prop-group">
+                <label>View Override</label>
+                <select id="propView">
+                    <option value="default">Default</option>
+                    <option value="phone">Phone</option>
+                    <option value="tablet">Tablet</option>
+                    <option value="pc">PC</option>
+                    <option value="tv">TV</option>
+                    <option value="landscape">Landscape</option>
+                </select>
+            </div>
+            <div class="prop-group">
+                <label>Text / Content</label>
+                <input type="text" id="propText" placeholder="Edit text here..." />
+            </div>
+            <div class="prop-group">
+                <label>Link URL</label>
+                <input type="text" id="propLink" placeholder="https://..." />
+            </div>
+            <div class="prop-group">
+                <label>Background Color</label>
+                <input type="color" id="propBgColor" />
+            </div>
+            <div class="prop-group">
+                <label>Text Color</label>
+                <input type="color" id="propTextColor" />
+            </div>
+            <div class="prop-group">
+                <label>Font Size</label>
+                <input type="text" id="propFontSize" placeholder="16px" />
+            </div>
+            <div class="prop-group">
+                <label>Padding</label>
+                <input type="text" id="propPadding" placeholder="12px" />
+            </div>
+            <div class="prop-group">
+                <label>Border Radius</label>
+                <input type="text" id="propRadius" placeholder="8px" />
+            </div>
+            <div class="prop-group">
+                <label>Width</label>
+                <input type="text" id="propWidth" placeholder="200px" />
+            </div>
+            <div class="prop-group">
+                <label>Height</label>
+                <input type="text" id="propHeight" placeholder="50px" />
+            </div>
+            <div class="prop-group">
+                <button class="btn-cloudinary" onclick="document.getElementById('cloudinaryInput').click()">Upload Image</button>
+                <!-- Hidden file input for Cloudinary -->
+                <input type="file" id="cloudinaryInput" style="display:none;" accept="image/*">
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Variables -->
+    <script>
+        window.SITE_ID = {{ site.id }};
+        window.SITE_DATA = {{ site.data | safe }};
+        window.CLOUD_NAME = "{{ cloud_name }}";
+        window.UPLOAD_PRESET = "{{ upload_preset }}";
+    </script>
+    <script src="{{ url_for('static', filename='js/builder.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initBuilder();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ site.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <style>
+        body { margin:0; background:#f7f8fc; }
+        .live-container { position:relative; width:100%; max-width:1366px; margin:0 auto; background:#fff; min-height:100vh; }
+    </style>
+</head>
+<body>
+    <div class="live-container" id="live">
+        <!-- JS রেন্ডার করবে -->
+    </div>
+    <script>
+        const data = {{ site.data | safe }};
+        const c = document.getElementById('live');
+        if (data.elements && data.elements.length) {
+            data.elements.forEach(el => {
+                const d = document.createElement('div');
+                d.style.cssText = `position:absolute; left:${el.position.left}px; top:${el.position.top}px; width:${el.position.width}px; height:${el.position.height}px;`;
+                // apply default styles (live site uses desktop default for simplicity)
+                if (el.defaultStyles) {
+                    if (el.defaultStyles.background) d.style.background = el.defaultStyles.background;
+                    if (el.defaultStyles.color) d.style.color = el.defaultStyles.color;
+                    if (el.defaultStyles.borderRadius) d.style.borderRadius = el.defaultStyles.borderRadius;
+                    if (el.defaultStyles.padding) d.style.padding = el.defaultStyles.padding;
+                    if (el.defaultStyles.fontSize) d.style.fontSize = el.defaultStyles.fontSize;
+                }
+                d.innerHTML = el.html;
+                c.appendChild(d);
+            });
+        } else {
+            c.innerHTML = '<p style="padding:40px; text-align:center;">No content</p>';
+        }
+    </script>
+</body>
+</html>
