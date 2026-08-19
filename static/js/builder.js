@@ -1,28 +1,5 @@
-const ELEMENT_LIBRARY = {
-    'Buttons': [
-        { type: 'button', label: 'Primary', html: '<button style="background:#232846; color:#fff; border:none; padding:12px 24px; border-radius:12px; font-weight:600;">Get Started</button>', defaultStyles: { width: '160px', height: '48px' } },
-        { type: 'button', label: 'Secondary', html: '<button style="background:transparent; color:#232846; border:2px solid #232846; padding:12px 24px; border-radius:12px; font-weight:600;">Learn More</button>', defaultStyles: { width: '160px', height: '48px' } },
-        { type: 'button', label: 'Green', html: '<button style="background:#2ECC71; color:#fff; border:none; padding:12px 24px; border-radius:12px; font-weight:600;">Sign Up</button>', defaultStyles: { width: '140px', height: '48px' } },
-    ],
-    'Navbars': [
-        { type: 'navbar', label: 'Minimal', html: '<nav style="display:flex; justify-content:space-between; padding:16px 24px; background:#fff; border-bottom:1px solid #eee;"><span style="font-weight:bold;">Parrot</span><div><a href="#" style="margin:0 10px;">Home</a><a href="#">About</a></div></nav>', defaultStyles: { width: '100%', height: '60px' } },
-    ],
-    'Footers': [
-        { type: 'footer', label: 'Dark', html: '<footer style="background:#161A30; color:#fff; padding:20px; text-align:center;"><p>&copy; 2025 Parrot Innovations</p></footer>', defaultStyles: { width: '100%', height: '80px' } },
-    ],
-    'Cards': [
-        { type: 'card', label: 'Profile', html: '<div style="border:1px solid #eee; border-radius:16px; padding:20px; background:#fff; width:100%;"><div style="width:80px; height:80px; background:#eee; border-radius:50%;"></div><h3>Alex Morgan</h3><p style="color:#666;">Designer</p></div>', defaultStyles: { width: '260px', height: '200px' } },
-    ],
-    'Text': [
-        { type: 'text', label: 'Heading', html: '<h1 style="font-family:Outfit; margin:0;">Welcome</h1>', defaultStyles: { width: 'auto', height: 'auto', color: '#232846', fontSize: '36px' } },
-    ],
-    'Inputs': [
-        { type: 'input', label: 'Text Input', html: '<input type="text" placeholder="Enter email" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;">', defaultStyles: { width: '100%', height: '48px' } },
-    ],
-    'Images': [
-        { type: 'image', label: 'Image Placeholder', html: '<div style="background:#eee; width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#888;">Image</div>', defaultStyles: { width: '200px', height: '150px' } },
-    ]
-};
+// Main builder logic
+// Uses window.ELEMENT_LIBRARY populated by separate module files
 
 let siteId = window.SITE_ID;
 let elements = [];
@@ -38,7 +15,7 @@ function initBuilder() {
     elements.forEach(el => renderElement(el));
     setView('pc');
     populateDrawer();
-    // Events
+    
     document.querySelectorAll('.view-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
@@ -51,7 +28,6 @@ function initBuilder() {
     document.getElementById('previewBtn').addEventListener('click', previewSite);
     document.getElementById('canvas').addEventListener('dragover', e => e.preventDefault());
     document.getElementById('canvas').addEventListener('drop', handleDrop);
-    // Cloudinary file input listener
     document.getElementById('cloudinaryInput').addEventListener('change', handleImageUpload);
     document.addEventListener('keydown', e => { if (e.key === 'Delete' && selectedId) deleteElement(selectedId); });
 }
@@ -67,7 +43,8 @@ function setView(view) {
 function populateDrawer() {
     const container = document.getElementById('assets-panel');
     container.innerHTML = '';
-    for (const [cat, items] of Object.entries(ELEMENT_LIBRARY)) {
+    if (!window.ELEMENT_LIBRARY) return;
+    for (const [cat, items] of Object.entries(window.ELEMENT_LIBRARY)) {
         const div = document.createElement('div');
         div.className = 'category';
         div.innerHTML = `<div class="category-title">${cat}</div>`;
@@ -92,7 +69,7 @@ function handleDrop(e) {
     const raw = e.dataTransfer.getData('text/plain');
     if (!raw) return;
     const { cat, idx } = JSON.parse(raw);
-    const item = ELEMENT_LIBRARY[cat][idx];
+    const item = window.ELEMENT_LIBRARY[cat]?.[idx];
     if (!item) return;
     const canvas = document.getElementById('canvas');
     const rect = canvas.getBoundingClientRect();
@@ -173,7 +150,6 @@ function openProperties(el) {
     const panel = document.getElementById('properties-panel');
     panel.style.display = 'block';
     panel.dataset.id = el.id;
-    // Fill data based on current view or default
     const s = getStylesForView(el);
     document.getElementById('propText').value = s.text || '';
     document.getElementById('propLink').value = s.link || '';
@@ -186,7 +162,6 @@ function openProperties(el) {
     document.getElementById('propHeight').value = el.position.height + 'px';
 }
 
-// Apply edits on input change
 document.getElementById('properties-panel').addEventListener('input', function(e) {
     const panel = document.getElementById('properties-panel');
     const el = elements.find(e => e.id === panel.dataset.id);
@@ -215,7 +190,7 @@ document.getElementById('properties-panel').addEventListener('input', function(e
     document.getElementById(el.id).classList.add('selected');
 });
 
-// ---------- CLOUDINARY ----------
+// Cloudinary
 async function handleImageUpload(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -229,7 +204,6 @@ async function handleImageUpload(e) {
         });
         const data = await res.json();
         if (data.secure_url) {
-            // Update image element in the active panel
             const panel = document.getElementById('properties-panel');
             const el = elements.find(e => e.id === panel.dataset.id);
             if (el && el.type === 'image') {
@@ -241,7 +215,6 @@ async function handleImageUpload(e) {
     } catch (err) { alert('Upload failed'); }
 }
 
-// ---------- SAVE ----------
 async function saveSite() {
     document.querySelectorAll('.element-wrapper').forEach(w => {
         const el = elements.find(e => e.id === w.id);
@@ -269,7 +242,7 @@ async function publishSite() {
 }
 
 function previewSite() {
-    window.open(`/s/`, '_blank'); // user can manually preview
+    window.open(`/s/`, '_blank');
 }
 
 function deleteElement(id) {

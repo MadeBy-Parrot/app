@@ -17,7 +17,7 @@
     </style>
 </head>
 <body class="builder-body">
-    <!-- Top Bar (same as before) -->
+    <!-- Top Bar -->
     <div id="topbar">
         <div style="display:flex; align-items:center; gap:8px; min-width:200px;">
             <span class="logo-p font-virgo">P</span>
@@ -48,7 +48,7 @@
             <div id="canvas"></div>
         </div>
         
-        <!-- Properties Panel (Fully Updated) -->
+        <!-- Properties Panel -->
         <div id="properties-panel">
             <h4>Properties</h4>
             <div class="prop-group">
@@ -100,19 +100,24 @@
             </div>
             <div class="prop-group">
                 <button class="btn-cloudinary" onclick="document.getElementById('cloudinaryInput').click()">Upload Image</button>
-                <!-- Hidden file input for Cloudinary -->
                 <input type="file" id="cloudinaryInput" style="display:none;" accept="image/*">
             </div>
         </div>
     </div>
 
-    <!-- Global Variables -->
+    <!-- Global Variables & Modular Scripts -->
     <script>
         window.SITE_ID = {{ site.id }};
         window.SITE_DATA = {{ site.data | safe }};
         window.CLOUD_NAME = "{{ cloud_name }}";
         window.UPLOAD_PRESET = "{{ upload_preset }}";
     </script>
+    
+    <!-- Modular Category Scripts (place before builder.js) -->
+    <script src="{{ url_for('static', filename='js/builder_buttons.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/builder_navbars.js') }}"></script>
+    
+    <!-- Main Builder Script -->
     <script src="{{ url_for('static', filename='js/builder.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
