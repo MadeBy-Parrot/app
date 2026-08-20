@@ -10,94 +10,130 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
     <style>
-        @font-face { font-family: 'Virgo'; src: url('/fonts/Virgo.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+        @font-face { font-family: 'Virgo'; src: url('/static/fonts/Virgo.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
         .font-virgo { font-family: 'Virgo', 'Outfit', sans-serif; }
-        body { margin:0; overflow:hidden; height:100vh; background:#f7f8fc; }
-        .builder-body { display:flex; flex-direction:column; height:100vh; }
     </style>
 </head>
 <body class="builder-body">
+    
+    <!-- ===== TOP BAR ===== -->
     <div id="topbar">
-        <div style="display:flex; align-items:center; gap:8px; min-width:200px;">
+        <div class="topbar-left">
             <span class="logo-p font-virgo">P</span>
             <span class="logo-text font-outfit">MadeBy-Parrot</span>
+            <input type="text" class="site-name-input" value="{{ site.name }}" id="siteName" />
         </div>
-        <input type="text" class="site-name-input" value="{{ site.name }}" placeholder="Site Name" id="siteName" />
-        <div class="view-switcher">
-            <button class="view-btn" data-view="phone">Phone</button>
-            <button class="view-btn" data-view="tablet">Tablet</button>
-            <button class="view-btn active" data-view="pc">PC</button>
-            <button class="view-btn" data-view="tv">TV</button>
-            <button class="view-btn" data-view="landscape">Landscape</button>
+        
+        <div class="topbar-center" id="topbarDeviceControls">
+            <div class="device-group">
+                <button class="view-btn active" data-device="pc">PC</button>
+                <button class="view-btn" data-device="phone">Phone</button>
+                <button class="view-btn" data-device="tablet">Tablet</button>
+                <button class="view-btn" data-device="tv">TV</button>
+            </div>
+            <div class="orientation-group">
+                <button class="orient-btn active" data-orientation="portrait">Portrait</button>
+                <button class="orient-btn" data-orientation="landscape">Landscape</button>
+            </div>
         </div>
-        <div style="display:flex; gap:8px; margin-left:auto;">
-            <button id="saveBtn" class="btn-primary" style="padding:8px 16px; font-size:14px;">Save</button>
-            <button id="publishBtn" class="btn-publish" style="padding:8px 16px; font-size:14px;">Publish</button>
-            <button id="previewBtn" class="btn-outline" style="padding:8px 16px; font-size:14px;">Preview</button>
+
+        <div class="topbar-right" id="topbarActions">
+            <button id="saveBtn" class="btn-secondary">Save</button>
+            <button id="previewBtn" class="btn-secondary">Preview</button>
+            <button id="publishBtn" class="btn-primary">Publish</button>
         </div>
     </div>
 
+    <!-- ===== MAIN AREA ===== -->
     <div id="main-area">
-        <div id="assets-panel"></div>
+        <!-- Left Component Panel (Desktop) -->
+        <div id="assets-panel">
+            <h4 class="panel-title font-outfit">Components</h4>
+            <div id="component-list"></div>
+        </div>
+
+        <!-- Center Canvas -->
         <div id="canvas-container">
             <div id="canvas"></div>
         </div>
-        <div id="properties-panel">
-            <h4>Properties</h4>
-            <div class="prop-group">
-                <label>View Override</label>
-                <select id="propView">
-                    <option value="default">Default</option>
-                    <option value="phone">Phone</option>
-                    <option value="tablet">Tablet</option>
-                    <option value="pc">PC</option>
-                    <option value="tv">TV</option>
-                    <option value="landscape">Landscape</option>
-                </select>
-            </div>
-            <div class="prop-group">
-                <label>Text / Content</label>
-                <input type="text" id="propText" placeholder="Edit text here..." />
-            </div>
-            <div class="prop-group">
-                <label>Link URL</label>
-                <input type="text" id="propLink" placeholder="https://..." />
-            </div>
-            <div class="prop-group">
-                <label>Background Color</label>
-                <input type="color" id="propBgColor" />
-            </div>
-            <div class="prop-group">
-                <label>Text Color</label>
-                <input type="color" id="propTextColor" />
-            </div>
-            <div class="prop-group">
-                <label>Font Size</label>
-                <input type="text" id="propFontSize" placeholder="16px" />
-            </div>
-            <div class="prop-group">
-                <label>Padding</label>
-                <input type="text" id="propPadding" placeholder="12px" />
-            </div>
-            <div class="prop-group">
-                <label>Border Radius</label>
-                <input type="text" id="propRadius" placeholder="8px" />
-            </div>
-            <div class="prop-group">
-                <label>Width</label>
-                <input type="text" id="propWidth" placeholder="200px" />
-            </div>
-            <div class="prop-group">
-                <label>Height</label>
-                <input type="text" id="propHeight" placeholder="50px" />
-            </div>
-            <div class="prop-group">
-                <button class="btn-cloudinary" onclick="document.getElementById('cloudinaryInput').click()">Upload Image</button>
-                <input type="file" id="cloudinaryInput" style="display:none;" accept="image/*">
-            </div>
+    </div>
+
+    <!-- ===== MOBILE BOTTOM BAR ===== -->
+    <div id="mobile-bottom-bar">
+        <button id="toggleMobileDrawer" class="mobile-action-btn">
+            <span class="material-icons">menu</span> Components
+        </button>
+        <button class="mobile-action-btn"><span class="material-icons">undo</span></button>
+        <button class="mobile-action-btn"><span class="material-icons">redo</span></button>
+        <button class="mobile-action-btn"><span class="material-icons">settings</span></button>
+    </div>
+
+    <!-- ===== MOBILE COMPONENTS DRAWER ===== -->
+    <div id="mobile-drawer">
+        <div class="drawer-header">
+            <h4 class="font-outfit">Components</h4>
+            <button id="closeMobileDrawer" class="close-btn"><span class="material-icons">close</span></button>
+        </div>
+        <div class="drawer-body" id="mobile-component-list"></div>
+    </div>
+
+    <!-- ===== PROPERTIES PANEL ===== -->
+    <div id="properties-panel">
+        <h4 class="font-outfit">Properties</h4>
+        <div class="prop-group">
+            <label>View Override</label>
+            <select id="propView">
+                <option value="default">Default</option>
+                <option value="phone">Phone</option>
+                <option value="tablet">Tablet</option>
+                <option value="pc">PC</option>
+                <option value="tv">TV</option>
+                <option value="landscape">Landscape</option>
+            </select>
+        </div>
+        <div class="prop-group">
+            <label>Text / Content</label>
+            <input type="text" id="propText" />
+        </div>
+        <div class="prop-group">
+            <label>Link URL</label>
+            <input type="text" id="propLink" />
+        </div>
+        <div class="prop-group">
+            <label>Background Color</label>
+            <input type="color" id="propBgColor" />
+        </div>
+        <div class="prop-group">
+            <label>Text Color</label>
+            <input type="color" id="propTextColor" />
+        </div>
+        <div class="prop-group">
+            <label>Font Size</label>
+            <input type="text" id="propFontSize" />
+        </div>
+        <div class="prop-group">
+            <label>Padding</label>
+            <input type="text" id="propPadding" />
+        </div>
+        <div class="prop-group">
+            <label>Border Radius</label>
+            <input type="text" id="propRadius" />
+        </div>
+        <div class="prop-group">
+            <label>Width</label>
+            <input type="text" id="propWidth" />
+        </div>
+        <div class="prop-group">
+            <label>Height</label>
+            <input type="text" id="propHeight" />
+        </div>
+        <div class="prop-group">
+            <button class="btn-cloudinary" onclick="document.getElementById('cloudinaryInput').click()">Upload Image</button>
+            <input type="file" id="cloudinaryInput" style="display:none;" accept="image/*">
         </div>
     </div>
 
+    <!-- ===== GLOBALS & SCRIPTS ===== -->
     <script>
         window.SITE_ID = {{ site.id }};
         window.SITE_DATA = {{ site.data | safe }};
@@ -105,10 +141,6 @@
         window.UPLOAD_PRESET = "madeby_parrot_preset";
     </script>
     <script src="{{ url_for('static', filename='js/builder.js') }}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            initBuilder();
-        });
-    </script>
+    <script> document.addEventListener('DOMContentLoaded', initBuilder); </script>
 </body>
 </html>
