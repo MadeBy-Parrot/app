@@ -18,7 +18,6 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 def seed_database():
-    # Seed Categories and Elements if empty
     if Category.query.count() == 0:
         default_cats = ['Layout', 'Buttons', 'Cards', 'Text', 'Inputs', 'Search Bars', 'Images', 'Shapes', 'Icons']
         for cat_name in default_cats:
@@ -36,7 +35,6 @@ def seed_database():
                 default_styles=json.dumps({"width":"160px","height":"48px"})
             )
             db.session.add(btn)
-        
         db.session.commit()
         print("✅ Database seeded with default categories.")
 
@@ -50,10 +48,11 @@ with app.app_context():
         seed_database()
     else:
         db.create_all()
-        seed_database() # Only seed if empty
+        seed_database()
 
 from routes import init_routes
-init_routes(app, db)
+# ✅ ফিক্স করা অংশ: init_routes থেকে রিটার্ন করা অ্যাপটি আবার `app`-এ অ্যাসাইন করা
+app = init_routes(app, db)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
