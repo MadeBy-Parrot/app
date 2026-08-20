@@ -24,7 +24,6 @@ def seed_database():
             cat = Category(name=cat_name)
             db.session.add(cat)
         
-        # Add a sample button
         button_cat = Category.query.filter_by(name='Buttons').first()
         if button_cat:
             btn = Element(
@@ -38,7 +37,6 @@ def seed_database():
         db.session.commit()
         print("✅ Database seeded with default categories.")
 
-# ---- Migration & DB init ----
 reset_db = os.environ.get('RESET_DB', 'false').lower() == 'true'
 with app.app_context():
     if reset_db:
@@ -51,8 +49,9 @@ with app.app_context():
         seed_database()
 
 from routes import init_routes
-# ✅ ফিক্স করা অংশ: init_routes থেকে রিটার্ন করা অ্যাপটি আবার `app`-এ অ্যাসাইন করা
 app = init_routes(app, db)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Render-এর জন্য পোর্ট কনফিগারেশন (ডিফল্ট 10000, লোকালি 5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
