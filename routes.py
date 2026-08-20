@@ -1,81 +1,55 @@
 from flask import render_template, request, redirect, url_for, flash, jsonify, abort
 from flask_login import login_user, logout_user, login_required, current_user
 from models import db, User, Site
-import json, secrets, requests
+import json
+import requests
 
 def init_routes(app, db):
-    # ------------------- Google OAuth -------------------
-    @app.route('/auth/google')
-    def google_auth():
-        state = secrets.token_urlsafe(16)
-        params = {
-            'client_id': app.config['GOOGLE_CLIENT_ID'],
-            'redirect_uri': app.config['GOOGLE_REDIRECT_URI'],
-            'response_type': 'code',
-            'scope': 'openid email profile',
-            'state': state
-        }
-        url = 'https://accounts.google.com/o/oauth2/v2/auth?' + '&'.join(f'{k}={v}' for k,v in params.items())
-        return redirect(url)
+    # ------------------- Firebase Auth (REST API - No SDK needed) -------------------
+    @app.route('/auth/firebase', methods=['POST'])
+    def auth_firebase():
+        id_token = request.json.get('idToken')
+        if not id_token:
+            return jsonify({"error": "No token provided"}), 400
 
-    @app.route('/auth/google/callback')
-    def google_callback():
-        code = request.args.get('code')
-        if not code:
-            flash('Authorization failed')
-            return redirect(url_for('login'))
+        # Firebase REST API দিয়ে টোকেন ভেরিফাই করা হচ্ছে
+        api_key = app.config['FIREBASE_WEB_API_KEY']
+        url = f"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={api_key}"
         
-        token_url = 'https://oauth2.googleapis.com/token'
-        data = {
-            'code': code,
-            'client_id': app.config['GOOGLE_CLIENT_ID'],
-            'client_secret': app.config['GOOGLE_CLIENT_SECRET'],
-            'redirect_uri': app.config['GOOGLE_REDIRECT_URI'],
-            'grant_type': 'authorization_code',
-        }
-        resp = requests.post(token_url, data=data)
-        if resp.status_code != 200:
-            flash('Failed to get access token')
-            return redirect(url_for('login'))
-        token_data = resp.json()
-        access_token = token_data.get('access_token')
-        
-        user_info_url = 'https://www.googleapis.com/oauth2/v2/userinfo'
-        headers = {'Authorization': f'Bearer {access_token}'}
-        user_resp = requests.get(user_info_url, headers=headers)
-        if user_resp.status_code != 200:
-            flash('Failed to fetch user info')
-            return redirect(url_for('login'))
-        user_info = user_resp.json()
-        email = user_info.get('email')
-        google_id = user_info.get('id')
-        name = user_info.get('name', 'User')
-        if not email or not google_id:
-            flash('Invalid user info from Google')
-            return redirect(url_for('login'))
+        try:
+            resp = requests.post(url, json={"idToken": id_token})
+            if resp.status_code != 200:
+                return jsonify({"error": "Invalid token"}), 401
+            
+            data = resp.json()
+            if 'users' not in data or not data['users']:
+                return jsonify({"error": "User not found"}), 401
+            
+            user_info = data['users'][0]
+            email = user_info.get('email')
+            name = user_info.get('displayName', 'User')
+            
+        except Exception as e:
+            print(f"Firebase token verification failed: {e}")
+            return jsonify({"error": "Verification failed"}), 401
 
+        # ডাটাবেসে ইউজার খোঁজা বা তৈরি করা
         user = User.query.filter_by(email=email).first()
-        if user:
-            if not user.google_id:
-                user.google_id = google_id
-                db.session.commit()
-            login_user(user)
-            return redirect(url_for('dashboard'))
-        else:
-            new_user = User(
+        if not user:
+            user = User(
                 email=email,
                 username=name,
-                google_id=google_id,
                 is_verified=True,
                 password_hash=None,
-                verification_token=None,
+                verification_token=None
             )
-            db.session.add(new_user)
+            db.session.add(user)
             db.session.commit()
-            login_user(new_user)
-            return redirect(url_for('dashboard'))
 
-    # ------------------- Login -------------------
+        login_user(user)
+        return jsonify({"success": True})
+
+    # ------------------- Login Page -------------------
     @app.route('/login')
     def login():
         if current_user.is_authenticated:
@@ -112,8 +86,8 @@ def init_routes(app, db):
             abort(404)
         return render_template('builder.html', 
                                site=site,
-                               cloud_name=app.config.get('CLOUDINARY_CLOUD_NAME', ''),
-                               upload_preset=app.config.get('CLOUDINARY_UPLOAD_PRESET', ''))
+                               cloud_name=app.config.get('CLOUDINARY_CLOUD_NAME', 'g99ay6kz'),
+                               upload_preset=app.config.get('CLOUDINARY_UPLOAD_PRESET', 'madeby_parrot_preset'))
 
     @app.route('/site/<int:site_id>/save', methods=['POST'])
     @login_required
