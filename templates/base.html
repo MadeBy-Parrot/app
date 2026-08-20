@@ -26,7 +26,7 @@
 <body>
     <nav class="navbar">
         <a href="{{ url_for('dashboard') }}" class="logo">
-            <!-- P সরিয়ে ফেলা হয়েছে, শুধু MadeBy-Parrot রাখা হয়েছে -->
+            <!-- P সরিয়ে শুধু টেক্সট রাখা হয়েছে -->
             <span class="logo-text font-outfit">MadeBy-Parrot</span>
         </a>
         <div class="nav-links">
@@ -34,7 +34,10 @@
                 <a href="{{ url_for('dashboard') }}">Dashboard</a>
                 <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
             {% else %}
-                <a href="{{ url_for('login') }}">Login</a>
+                <!-- লগইন পেজে থাকলে Login লিংক দেখাবে না -->
+                {% if request.endpoint != 'login' %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                {% endif %}
             {% endif %}
         </div>
     </nav>
