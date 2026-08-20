@@ -2,6 +2,7 @@ from flask import Flask
 from flask_login import LoginManager
 from config import Config
 from models import db, User
+import os
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -20,5 +21,12 @@ init_routes(app, db)
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
+        # 🔥 ডাটাবেস রিসেট সুইচ (শুধু Render-এ ডেপ্লয়ের সময় ব্যবহার করবেন)
+        if os.environ.get('RESET_DB', 'false').lower() == 'true':
+            print("⚠️ WARNING: Dropping and recreating all database tables...")
+            db.drop_all()
+            db.create_all()
+            print("✅ Database reset complete!")
+        else:
+            db.create_all()
     app.run(debug=True, host='0.0.0.0', port=5000)
