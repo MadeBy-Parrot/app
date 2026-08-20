@@ -39,7 +39,7 @@ def init_routes(app, db):
             user_info = data['users'][0]
             email = user_info.get('email')
             name = user_info.get('displayName', 'User')
-            uid = user_info.get('localId')  # Firebase UID
+            uid = user_info.get('localId')
         except requests.exceptions.RequestException as e:
             print(f"🔥 Firebase network error: {e}")
             return jsonify({"error": "Unable to reach Firebase. Check API Key or Network."}), 503
@@ -47,16 +47,14 @@ def init_routes(app, db):
             print(f"🔥 Firebase token verification failed: {e}")
             return jsonify({"error": f"Server error: {str(e)}"}), 401
 
-        # Database: find or create user
         try:
             user = User.query.filter_by(email=email).first()
             if not user:
-                # নতুন ইউজার তৈরি – password_hash-এ ডামি মান দিন (NOT NULL এড়াতে)
                 user = User(
                     email=email,
                     username=name,
                     is_verified=True,
-                    password_hash="google-oauth",   # ✅ NOT NULL সমস্যা এড়াতে ডামি মান
+                    password_hash="google-oauth",
                     google_id=uid,
                     verification_token=None
                 )
@@ -120,16 +118,51 @@ def init_routes(app, db):
         db.session.commit()
         return jsonify({"success": True})
 
+    # ---------- Slug check endpoint ----------
+    @app.route('/site/check-slug', methods=['GET'])
+    @login_required
+    def check_slug():
+        slug = request.args.get('slug', '').strip().lower()
+        if not slug:
+            return jsonify({"available": False, "message": "Slug cannot be empty"})
+        
+        # Validate format: only lowercase letters, numbers, and hyphens
+        import re
+        if not re.match(r'^[a-z0-9]+(-[a-z0-9]+)*$', slug):
+            return jsonify({"available": False, "message": "Only lowercase letters, numbers, and hyphens allowed."})
+        
+        # Check if slug already used by any site
+        existing = Site.query.filter_by(slug=slug).first()
+        if existing:
+            return jsonify({"available": False, "message": "This site name is already taken."})
+        
+        return jsonify({"available": True, "message": "Available!"})
+
+    # ---------- Publish with custom slug ----------
     @app.route('/site/<int:site_id>/publish', methods=['POST'])
     @login_required
     def publish_site(site_id):
         site = Site.query.get_or_404(site_id)
         if site.user_id != current_user.id:
             abort(404)
-        if not site.slug:
-            site.generate_slug()
-            while Site.query.filter_by(slug=site.slug).first():
+        
+        data = request.get_json()
+        slug = data.get('slug', '').strip().lower() if data else ''
+        
+        # If slug provided, validate it; else generate random
+        if slug:
+            import re
+            if not re.match(r'^[a-z0-9]+(-[a-z0-9]+)*$', slug):
+                return jsonify({"error": "Invalid slug format"}), 400
+            if Site.query.filter_by(slug=slug).first():
+                return jsonify({"error": "Slug already taken"}), 400
+            site.slug = slug
+        else:
+            if not site.slug:
                 site.generate_slug()
+                while Site.query.filter_by(slug=site.slug).first():
+                    site.generate_slug()
+        
         site.published = True
         db.session.commit()
         return jsonify({

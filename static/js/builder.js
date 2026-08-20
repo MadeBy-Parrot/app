@@ -66,8 +66,8 @@ function bindEvents() {
     });
 
     document.getElementById('saveBtn').addEventListener('click', saveSite);
-    document.getElementById('publishBtn').addEventListener('click', publishSite);
     document.getElementById('previewBtn').addEventListener('click', previewSite);
+    document.getElementById('publishBtn').addEventListener('click', openPublishModal);
     
     const canvas = document.getElementById('canvas');
     canvas.addEventListener('dragover', e => e.preventDefault());
@@ -84,6 +84,14 @@ function bindEvents() {
         closeBtn.addEventListener('click', () => drawer.classList.remove('open'));
         drawer.addEventListener('click', (e) => { if(e.target === drawer) drawer.classList.remove('open'); });
     }
+
+    // Publish Modal events
+    document.getElementById('closePublishModal').addEventListener('click', closePublishModal);
+    document.getElementById('publishModal').addEventListener('click', function(e) {
+        if(e.target === this) closePublishModal();
+    });
+    document.getElementById('slugInput').addEventListener('input', debounce(checkSlug, 300));
+    document.getElementById('modalPublishBtn').addEventListener('click', performPublish);
 }
 
 function setView(device, orientation) {
@@ -257,12 +265,98 @@ async function saveSite() {
     if (res.ok) alert('Saved!'); else alert('Error saving');
 }
 
-async function publishSite() {
-    await saveSite();
-    const res = await fetch(`/site/${siteId}/publish`, { method: 'POST' });
-    if (res.ok) {
-        const data = await res.json(); alert(`Published: ${data.url}`);
-    } else alert('Publish failed');
+// ---------- Publish Popover Logic ----------
+function openPublishModal() {
+    document.getElementById('publishModal').style.display = 'flex';
+    document.getElementById('slugInput').value = '';
+    document.getElementById('slugStatus').className = 'slug-status';
+    document.getElementById('slugMessage').innerHTML = '';
+    document.getElementById('modalPublishBtn').disabled = true;
+    document.getElementById('slugInput').focus();
+}
+
+function closePublishModal() {
+    document.getElementById('publishModal').style.display = 'none';
+}
+
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
+async function checkSlug() {
+    const input = document.getElementById('slugInput');
+    const status = document.getElementById('slugStatus');
+    const msg = document.getElementById('slugMessage');
+    const publishBtn = document.getElementById('modalPublishBtn');
+    const slug = input.value.trim().toLowerCase();
+
+    if (!slug) {
+        status.className = 'slug-status';
+        msg.innerHTML = '';
+        publishBtn.disabled = true;
+        return;
+    }
+
+    // Client-side basic format validation (to reduce unnecessary API calls)
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) {
+        status.className = 'slug-status invalid';
+        msg.innerHTML = 'Only lowercase letters, numbers, and hyphens allowed.';
+        publishBtn.disabled = true;
+        return;
+    }
+
+    // Check availability via API
+    try {
+        const res = await fetch(`/site/check-slug?slug=${encodeURIComponent(slug)}`);
+        const data = await res.json();
+        if (data.available) {
+            status.className = 'slug-status valid';
+            msg.innerHTML = '✓ Available!';
+            publishBtn.disabled = false;
+        } else {
+            status.className = 'slug-status invalid';
+            msg.innerHTML = data.message || 'Not available.';
+            publishBtn.disabled = true;
+        }
+    } catch (err) {
+        status.className = 'slug-status invalid';
+        msg.innerHTML = 'Error checking availability.';
+        publishBtn.disabled = true;
+    }
+}
+
+async function performPublish() {
+    const slug = document.getElementById('slugInput').value.trim().toLowerCase();
+    if (!slug) return;
+
+    // Disable button to prevent double click
+    const publishBtn = document.getElementById('modalPublishBtn');
+    publishBtn.disabled = true;
+    publishBtn.textContent = 'Publishing...';
+
+    try {
+        const res = await fetch(`/site/${siteId}/publish`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug: slug })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+            alert(`🎉 Published successfully!\nLive URL: ${data.url}`);
+            closePublishModal();
+        } else {
+            alert(`Error: ${data.error || 'Publish failed.'}`);
+        }
+    } catch (err) {
+        alert('Network error. Please try again.');
+    } finally {
+        publishBtn.disabled = false;
+        publishBtn.textContent = 'Publish';
+    }
 }
 
 function previewSite() {
