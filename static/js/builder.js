@@ -1,21 +1,21 @@
-// === expanded ELEMENT_LIBRARY with many items ===
+// ELEMENT_LIBRARY (আপনার ইচ্ছামতো সম্প্রসারণ করুন)
 const ELEMENT_LIBRARY = {
     'Layout': [
-        { type: 'container', label: 'Container', html: '<div style="padding:20px; border:1px dashed #ccc; width:100%;">Container</div>', defaultStyles: { width: '100%', height: '100px' } },
+        { type: 'container', label: 'Container', html: '<div style="padding:20px; border:1px dashed #ccc;">Container</div>', defaultStyles: { width: '100%', height: '100px' } },
         { type: 'section', label: 'Section', html: '<section style="padding:20px; background:#f9f9f9;">Section</section>', defaultStyles: { width: '100%', height: '150px' } },
-        { type: 'columns', label: '2 Columns', html: '<div style="display:flex; gap:16px;"><div style="flex:1; border:1px dashed #ccc; padding:12px;">Col 1</div><div style="flex:1; border:1px dashed #ccc; padding:12px;">Col 2</div></div>', defaultStyles: { width: '100%', height: '100px' } },
-        { type: 'columns', label: '3 Columns', html: '<div style="display:flex; gap:16px;"><div style="flex:1; border:1px dashed #ccc; padding:12px;">Col 1</div><div style="flex:1; border:1px dashed #ccc; padding:12px;">Col 2</div><div style="flex:1; border:1px dashed #ccc; padding:12px;">Col 3</div></div>', defaultStyles: { width: '100%', height: '100px' } },
-        { type: 'grid', label: 'Grid 4', html: '<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;"><div style="border:1px dashed #ccc; padding:12px;">1</div><div style="border:1px dashed #ccc; padding:12px;">2</div><div style="border:1px dashed #ccc; padding:12px;">3</div><div style="border:1px dashed #ccc; padding:12px;">4</div></div>', defaultStyles: { width: '100%', height: '120px' } },
+        { type: 'columns', label: '2 Columns', html: '<div style="display:flex; gap:16px;"><div style="flex:1; border:1px dashed #ccc;">Col 1</div><div style="flex:1; border:1px dashed #ccc;">Col 2</div></div>', defaultStyles: { width: '100%', height: '100px' } },
+        { type: 'columns', label: '3 Columns', html: '<div style="display:flex; gap:16px;"><div style="flex:1; border:1px dashed #ccc;">Col 1</div><div style="flex:1; border:1px dashed #ccc;">Col 2</div><div style="flex:1; border:1px dashed #ccc;">Col 3</div></div>', defaultStyles: { width: '100%', height: '100px' } },
+        { type: 'grid', label: 'Grid 4', html: '<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;"><div style="border:1px dashed #ccc;">1</div><div>2</div><div>3</div><div>4</div></div>', defaultStyles: { width: '100%', height: '120px' } },
     ],
     'Buttons': [
         { type: 'button', label: 'Primary', html: '<button style="background:#232846; color:#fff; border:none; padding:12px 24px; border-radius:12px;">Get Started</button>', defaultStyles: { width: '160px', height: '48px' } },
         { type: 'button', label: 'Secondary', html: '<button style="background:transparent; color:#232846; border:2px solid #232846; padding:12px 24px; border-radius:12px;">Learn More</button>', defaultStyles: { width: '160px', height: '48px' } },
-        { type: 'button', label: 'Green CTA', html: '<button style="background:#2ECC71; color:#fff; border:none; padding:12px 24px; border-radius:12px;">Sign Up</button>', defaultStyles: { width: '150px', height: '48px' } },
+        { type: 'button', label: 'Green', html: '<button style="background:#2ECC71; color:#fff; border:none; padding:12px 24px; border-radius:12px;">Sign Up</button>', defaultStyles: { width: '150px', height: '48px' } },
         { type: 'button', label: 'Ghost', html: '<button style="background:transparent; color:#232846; border:none; padding:12px 24px; font-weight:600;">Skip</button>', defaultStyles: { width: '100px', height: '48px' } },
         { type: 'button', label: 'Rounded Pill', html: '<button style="background:#232846; color:#fff; border:none; padding:12px 24px; border-radius:50px;">Subscribe</button>', defaultStyles: { width: '140px', height: '48px' } },
         { type: 'button', label: 'Outline Green', html: '<button style="background:transparent; color:#2ECC71; border:2px solid #2ECC71; padding:12px 24px; border-radius:12px;">Go Green</button>', defaultStyles: { width: '150px', height: '48px' } },
         { type: 'button', label: 'With Icon', html: '<button style="background:#232846; color:#fff; border:none; padding:12px 16px; border-radius:12px; display:flex; align-items:center; gap:8px;"><span class="material-icons" style="font-size:20px;">arrow_forward</span> Next</button>', defaultStyles: { width: '140px', height: '48px' } },
-        { type: 'button', label: 'Large CTA', html: '<button style="background:#232846; color:#fff; border:none; padding:16px 32px; border-radius:16px; font-size:18px;">Download Now</button>', defaultStyles: { width: '200px', height: '60px' } },
+        { type: 'button', label: 'Large', html: '<button style="background:#232846; color:#fff; border:none; padding:16px 32px; border-radius:16px; font-size:18px;">Download Now</button>', defaultStyles: { width: '200px', height: '60px' } },
         { type: 'button', label: 'Small', html: '<button style="background:#232846; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-size:14px;">OK</button>', defaultStyles: { width: '80px', height: '36px' } },
         { type: 'button', label: 'Warning', html: '<button style="background:#F4C542; color:#232846; border:none; padding:12px 24px; border-radius:12px;">Warning</button>', defaultStyles: { width: '140px', height: '48px' } },
         { type: 'button', label: 'Danger', html: '<button style="background:#E74C3C; color:#fff; border:none; padding:12px 24px; border-radius:12px;">Delete</button>', defaultStyles: { width: '120px', height: '48px' } },
@@ -23,32 +23,32 @@ const ELEMENT_LIBRARY = {
         { type: 'button', label: 'White Shadow', html: '<button style="background:#fff; color:#232846; border:none; padding:12px 24px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">White</button>', defaultStyles: { width: '140px', height: '48px' } },
     ],
     'Cards': [
-        { type: 'card', label: 'Profile Card', html: '<div style="border:1px solid #eee; border-radius:16px; padding:20px; background:#fff; text-align:center;"><div style="width:80px; height:80px; background:#3498DB; border-radius:50%; margin:0 auto;"></div><h3>Alex Morgan</h3><p style="color:#666;">Designer</p></div>', defaultStyles: { width: '260px', height: '220px' } },
-        { type: 'card', label: 'Product Card', html: '<div style="border:1px solid #eee; border-radius:16px; padding:16px; background:#fff;"><div style="background:#f1f3f5; height:120px; border-radius:12px;"></div><h4>Headphones</h4><p>$89.99</p></div>', defaultStyles: { width: '240px', height: '260px' } },
-        { type: 'card', label: 'Blog Post', html: '<div style="border:1px solid #eee; border-radius:16px; padding:16px; background:#fff;"><div style="background:#e9ecef; height:100px; border-radius:12px;"></div><h4>Blog Title</h4><p>Jan 15, 2026</p></div>', defaultStyles: { width: '240px', height: '240px' } },
-        { type: 'card', label: 'Pricing Basic', html: '<div style="border:1px solid #eee; border-radius:16px; padding:24px; background:#fff; text-align:center;"><h4>Basic</h4><h2>$19/mo</h2><button style="background:#232846; color:#fff; border:none; padding:8px 20px; border-radius:8px;">Choose</button></div>', defaultStyles: { width: '240px', height: '240px' } },
-        { type: 'card', label: 'Testimonial', html: '<div style="border:1px solid #eee; border-radius:16px; padding:20px; background:#F7F8FC;"><p>"Great product!"</p><div style="display:flex; align-items:center; gap:12px;"><div style="width:40px; height:40px; background:#2ECC71; border-radius:50%;"></div><div><h4 style="margin:0;">John</h4><p style="margin:0;">CEO</p></div></div></div>', defaultStyles: { width: '260px', height: '160px' } },
-        { type: 'card', label: 'Feature Card', html: '<div style="border:1px solid #eee; border-radius:16px; padding:20px; background:#fff;"><span class="material-icons" style="font-size:32px; color:#3498DB;">rocket_launch</span><h4>Fast</h4><p>Lightning fast performance.</p></div>', defaultStyles: { width: '240px', height: '180px' } },
+        { type: 'card', label: 'Profile', html: '<div style="border:1px solid #eee; border-radius:16px; padding:20px; background:#fff; text-align:center;"><div style="width:80px; height:80px; background:#3498DB; border-radius:50%; margin:0 auto;"></div><h3>Alex Morgan</h3><p style="color:#666;">Designer</p></div>', defaultStyles: { width: '260px', height: '220px' } },
+        { type: 'card', label: 'Product', html: '<div style="border:1px solid #eee; border-radius:16px; padding:16px; background:#fff;"><div style="background:#f1f3f5; height:120px; border-radius:12px;"></div><h4>Headphones</h4><p>$89.99</p></div>', defaultStyles: { width: '240px', height: '260px' } },
+        { type: 'card', label: 'Blog', html: '<div style="border:1px solid #eee; border-radius:16px; padding:16px; background:#fff;"><div style="background:#e9ecef; height:100px; border-radius:12px;"></div><h4>Blog Title</h4><p>Jan 15, 2026</p></div>', defaultStyles: { width: '240px', height: '240px' } },
+        { type: 'card', label: 'Pricing', html: '<div style="border:1px solid #eee; border-radius:16px; padding:24px; background:#fff; text-align:center;"><h4>Basic</h4><h2>$19/mo</h2><button style="background:#232846; color:#fff; border:none; padding:8px 20px; border-radius:8px;">Choose</button></div>', defaultStyles: { width: '240px', height: '240px' } },
+        { type: 'card', label: 'Testimonial', html: '<div style="border:1px solid #eee; border-radius:16px; padding:20px; background:#F7F8FC;"><p>"Great product!"</p><div style="display:flex; align-items:center; gap:12px;"><div style="width:40px; height:40px; background:#2ECC71; border-radius:50%;"></div><div><h4>John</h4><p>CEO</p></div></div></div>', defaultStyles: { width: '260px', height: '160px' } },
+        { type: 'card', label: 'Feature', html: '<div style="border:1px solid #eee; border-radius:16px; padding:20px; background:#fff;"><span class="material-icons" style="font-size:32px; color:#3498DB;">rocket_launch</span><h4>Fast</h4><p>Lightning fast performance.</p></div>', defaultStyles: { width: '240px', height: '180px' } },
     ],
     'Text': [
         { type: 'text', label: 'Heading 1', html: '<h1 style="font-family:Outfit; margin:0; font-size:36px;">Welcome</h1>', defaultStyles: { width: 'auto', height: 'auto' } },
         { type: 'text', label: 'Heading 2', html: '<h2 style="font-family:Outfit; margin:0; font-size:28px;">Heading 2</h2>', defaultStyles: { width: 'auto', height: 'auto' } },
         { type: 'text', label: 'Heading 3', html: '<h3 style="font-family:Outfit; margin:0; font-size:22px;">Heading 3</h3>', defaultStyles: { width: 'auto', height: 'auto' } },
-        { type: 'text', label: 'Paragraph', html: '<p style="font-family:Inter; margin:0; font-size:16px; color:#3E466E;">This is a paragraph of text. You can edit it.</p>', defaultStyles: { width: '300px', height: 'auto' } },
-        { type: 'text', label: 'Blockquote', html: '<blockquote style="border-left:4px solid #232846; padding:8px 16px; margin:0; font-style:italic;">Design is not just what it looks like.</blockquote>', defaultStyles: { width: '300px', height: 'auto' } },
+        { type: 'text', label: 'Paragraph', html: '<p style="font-family:Inter; margin:0; font-size:16px; color:#3E466E;">This is a paragraph.</p>', defaultStyles: { width: '300px', height: 'auto' } },
+        { type: 'text', label: 'Blockquote', html: '<blockquote style="border-left:4px solid #232846; padding:8px 16px; font-style:italic;">Design is not just what it looks like.</blockquote>', defaultStyles: { width: '300px', height: 'auto' } },
         { type: 'text', label: 'List', html: '<ul style="margin:0; padding-left:20px;"><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>', defaultStyles: { width: '200px', height: 'auto' } },
     ],
     'Inputs': [
-        { type: 'input', label: 'Text Input', html: '<input type="text" placeholder="Enter name" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;">', defaultStyles: { width: '100%', height: '48px' } },
-        { type: 'input', label: 'Email Input', html: '<input type="email" placeholder="Email" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;">', defaultStyles: { width: '100%', height: '48px' } },
-        { type: 'input', label: 'Password Input', html: '<input type="password" placeholder="Password" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;">', defaultStyles: { width: '100%', height: '48px' } },
-        { type: 'input', label: 'Textarea', html: '<textarea placeholder="Message" style="width:100%; height:120px; padding:12px; border:1px solid #ddd; border-radius:8px; resize:vertical;"></textarea>', defaultStyles: { width: '100%', height: '120px' } },
+        { type: 'input', label: 'Text', html: '<input type="text" placeholder="Enter name" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;">', defaultStyles: { width: '100%', height: '48px' } },
+        { type: 'input', label: 'Email', html: '<input type="email" placeholder="Email" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;">', defaultStyles: { width: '100%', height: '48px' } },
+        { type: 'input', label: 'Password', html: '<input type="password" placeholder="Password" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;">', defaultStyles: { width: '100%', height: '48px' } },
+        { type: 'input', label: 'Textarea', html: '<textarea placeholder="Message" style="width:100%; height:120px; padding:12px; border:1px solid #ddd; border-radius:8px;"></textarea>', defaultStyles: { width: '100%', height: '120px' } },
         { type: 'input', label: 'Select', html: '<select style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; background:#fff;"><option>Option 1</option><option>Option 2</option></select>', defaultStyles: { width: '100%', height: '48px' } },
         { type: 'input', label: 'Checkbox Group', html: '<div><label><input type="checkbox"> Option A</label><br><label><input type="checkbox"> Option B</label></div>', defaultStyles: { width: '200px', height: '60px' } },
     ],
     'Search Bars': [
-        { type: 'search', label: 'Rounded', html: '<div style="display:flex; border:1px solid #ddd; border-radius:24px; overflow:hidden; width:100%;"><input type="text" placeholder="Search..." style="flex:1; padding:10px 16px; border:none; outline:none;"><button style="background:#232846; color:#fff; border:none; padding:0 20px;"><span class="material-icons" style="font-size:20px;">search</span></button></div>', defaultStyles: { width: '100%', height: '48px' } },
-        { type: 'search', label: 'Pill', html: '<div style="display:flex; align-items:center; border:1px solid #ddd; border-radius:50px; padding:4px 8px 4px 16px; background:#fff;"><span class="material-icons" style="color:#666;">search</span><input type="text" placeholder="Search..." style="flex:1; padding:8px; border:none; outline:none; background:transparent;"></div>', defaultStyles: { width: '100%', height: '48px' } },
+        { type: 'search', label: 'Rounded', html: '<div style="display:flex; border:1px solid #ddd; border-radius:24px; overflow:hidden;"><input type="text" placeholder="Search..." style="flex:1; padding:10px 16px; border:none;"><button style="background:#232846; color:#fff; border:none; padding:0 20px;"><span class="material-icons">search</span></button></div>', defaultStyles: { width: '100%', height: '48px' } },
+        { type: 'search', label: 'Pill', html: '<div style="display:flex; align-items:center; border:1px solid #ddd; border-radius:50px; padding:4px 8px 4px 16px; background:#fff;"><span class="material-icons" style="color:#666;">search</span><input type="text" placeholder="Search..." style="flex:1; padding:8px; border:none; background:transparent;"></div>', defaultStyles: { width: '100%', height: '48px' } },
     ],
     'Images': [
         { type: 'image', label: 'Placeholder', html: '<div style="width:100%; height:100%; background:#e9ecef; display:flex; align-items:center; justify-content:center;"><span class="material-icons" style="font-size:48px;">image</span></div>', defaultStyles: { width: '200px', height: '150px' } },
@@ -61,7 +61,6 @@ const ELEMENT_LIBRARY = {
         { type: 'shape', label: 'Circle', html: '<div style="width:100%; height:100%; background:#2ECC71; border-radius:50%;"></div>', defaultStyles: { width: '80px', height: '80px' } },
         { type: 'shape', label: 'Rounded Square', html: '<div style="width:100%; height:100%; background:#3498DB; border-radius:16px;"></div>', defaultStyles: { width: '100px', height: '100px' } },
         { type: 'shape', label: 'Line', html: '<hr style="width:100%; border:0; border-top:2px solid #ddd;">', defaultStyles: { width: '200px', height: '2px' } },
-        { type: 'shape', label: 'Triangle', html: '<div style="width:0; height:0; border-left:50px solid transparent; border-right:50px solid transparent; border-bottom:80px solid #232846;"></div>', defaultStyles: { width: '100px', height: '80px' } },
     ],
     'Icons': [
         { type: 'icon', label: 'Home', html: '<span class="material-icons" style="font-size:48px;">home</span>', defaultStyles: { width: '60px', height: '60px' } },
@@ -73,7 +72,6 @@ const ELEMENT_LIBRARY = {
         { type: 'icon', label: 'Camera', html: '<span class="material-icons" style="font-size:48px;">camera_alt</span>', defaultStyles: { width: '60px', height: '60px' } },
         { type: 'icon', label: 'Mail', html: '<span class="material-icons" style="font-size:48px;">mail</span>', defaultStyles: { width: '60px', height: '60px' } },
         { type: 'icon', label: 'Phone', html: '<span class="material-icons" style="font-size:48px;">phone</span>', defaultStyles: { width: '60px', height: '60px' } },
-        { type: 'icon', label: 'Location', html: '<span class="material-icons" style="font-size:48px;">location_on</span>', defaultStyles: { width: '60px', height: '60px' } },
     ],
     'Colors': [
         { type: 'color', label: 'Primary', html: '<div style="width:100%; height:100%; background:#232846; border-radius:8px;"></div>', defaultStyles: { width: '60px', height: '60px' } },
@@ -81,24 +79,18 @@ const ELEMENT_LIBRARY = {
         { type: 'color', label: 'Blue', html: '<div style="width:100%; height:100%; background:#3498DB; border-radius:8px;"></div>', defaultStyles: { width: '60px', height: '60px' } },
         { type: 'color', label: 'Red', html: '<div style="width:100%; height:100%; background:#E74C3C; border-radius:8px;"></div>', defaultStyles: { width: '60px', height: '60px' } },
         { type: 'color', label: 'Yellow', html: '<div style="width:100%; height:100%; background:#F4C542; border-radius:8px;"></div>', defaultStyles: { width: '60px', height: '60px' } },
-        { type: 'color', label: 'Dark BG', html: '<div style="width:100%; height:100%; background:#161A30; border-radius:8px;"></div>', defaultStyles: { width: '60px', height: '60px' } },
-        { type: 'color', label: 'Light BG', html: '<div style="width:100%; height:100%; background:#F7F8FC; border-radius:8px; border:1px solid #eee;"></div>', defaultStyles: { width: '60px', height: '60px' } },
-        { type: 'color', label: 'White', html: '<div style="width:100%; height:100%; background:#fff; border:1px solid #ddd; border-radius:8px;"></div>', defaultStyles: { width: '60px', height: '60px' } },
-        { type: 'color', label: 'Gradient Green/Blue', html: '<div style="width:100%; height:100%; background:linear-gradient(135deg, #2ECC71, #3498DB); border-radius:8px;"></div>', defaultStyles: { width: '60px', height: '60px' } },
-        { type: 'color', label: 'Gradient Red/Yellow', html: '<div style="width:100%; height:100%; background:linear-gradient(135deg, #E74C3C, #F4C542); border-radius:8px;"></div>', defaultStyles: { width: '60px', height: '60px' } },
+        { type: 'color', label: 'Dark', html: '<div style="width:100%; height:100%; background:#161A30; border-radius:8px;"></div>', defaultStyles: { width: '60px', height: '60px' } },
+        { type: 'color', label: 'Light', html: '<div style="width:100%; height:100%; background:#F7F8FC; border:1px solid #eee; border-radius:8px;"></div>', defaultStyles: { width: '60px', height: '60px' } },
     ],
     'Shadows': [
         { type: 'shadow', label: 'Soft', html: '<div style="width:80px; height:80px; background:#fff; border-radius:16px; box-shadow:0 8px 24px rgba(35,40,70,0.08);"></div>', defaultStyles: { width: '80px', height: '80px' } },
         { type: 'shadow', label: 'Medium', html: '<div style="width:80px; height:80px; background:#fff; border-radius:16px; box-shadow:0 12px 32px rgba(35,40,70,0.15);"></div>', defaultStyles: { width: '80px', height: '80px' } },
         { type: 'shadow', label: 'Strong', html: '<div style="width:80px; height:80px; background:#fff; border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,0.2);"></div>', defaultStyles: { width: '80px', height: '80px' } },
-        { type: 'shadow', label: 'Glow', html: '<div style="width:80px; height:80px; background:#2ECC71; border-radius:16px; box-shadow:0 0 20px rgba(46,204,113,0.4);"></div>', defaultStyles: { width: '80px', height: '80px' } },
-        { type: 'shadow', label: 'Inset', html: '<div style="width:80px; height:80px; background:#f8f9fa; border-radius:16px; box-shadow:inset 0 2px 8px rgba(0,0,0,0.05);"></div>', defaultStyles: { width: '80px', height: '80px' } },
     ],
     'Fonts': [
-        { type: 'font', label: 'Outfit Heading', html: '<div style="font-family:Outfit; font-size:24px; font-weight:700;">Outfit</div>', defaultStyles: { width: 'auto', height: 'auto' } },
-        { type: 'font', label: 'Inter Body', html: '<div style="font-family:Inter; font-size:16px;">Inter</div>', defaultStyles: { width: 'auto', height: 'auto' } },
-        { type: 'font', label: 'JetBrains Mono', html: '<div style="font-family:JetBrains Mono; font-size:14px;">JetBrains</div>', defaultStyles: { width: 'auto', height: 'auto' } },
-        { type: 'font', label: 'Serif', html: '<div style="font-family:Georgia, serif; font-size:20px;">Serif</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Outfit', html: '<div style="font-family:Outfit; font-size:24px; font-weight:700;">Outfit</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Inter', html: '<div style="font-family:Inter; font-size:16px;">Inter</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'JetBrains', html: '<div style="font-family:JetBrains Mono; font-size:14px;">JetBrains</div>', defaultStyles: { width: 'auto', height: 'auto' } },
     ]
 };
 
@@ -120,7 +112,6 @@ const VIEW_SIZES = {
 function initBuilder() {
     const data = window.SITE_DATA || { elements: [], canvas: {} };
     elements = data.elements || [];
-    // Load canvas properties if any
     if (data.canvas) {
         canvasProperties = { ...canvasProperties, ...data.canvas };
     }
@@ -139,7 +130,7 @@ function setCanvasProperties() {
 }
 
 function bindEvents() {
-    // Device & Orientation toggles
+    // View toggles
     document.querySelectorAll('.view-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
@@ -164,37 +155,31 @@ function bindEvents() {
     const canvas = document.getElementById('canvas');
     canvas.addEventListener('dragover', e => e.preventDefault());
     canvas.addEventListener('drop', handleDrop);
-    canvas.addEventListener('dblclick', function() {
-        openCanvasProperties();
-    });
+    canvas.addEventListener('dblclick', () => openCanvasProperties());
     document.getElementById('cloudinaryInput').addEventListener('change', handleImageUpload);
     document.addEventListener('keydown', e => { if (e.key === 'Delete' && selectedId) deleteElement(selectedId); });
 
-    // Mobile Drawer Toggle
+    // Mobile drawer
     const toggleBtn = document.getElementById('toggleMobileDrawer');
     const closeBtn = document.getElementById('closeMobileDrawer');
     const drawer = document.getElementById('mobile-drawer');
-    if(toggleBtn) {
+    if (toggleBtn) {
         toggleBtn.addEventListener('click', () => drawer.classList.add('open'));
         closeBtn.addEventListener('click', () => drawer.classList.remove('open'));
-        drawer.addEventListener('click', (e) => { if(e.target === drawer) drawer.classList.remove('open'); });
+        drawer.addEventListener('click', (e) => { if (e.target === drawer) drawer.classList.remove('open'); });
     }
 
-    // Publish Modal events
+    // Publish modal
     document.getElementById('closePublishModal').addEventListener('click', closePublishModal);
-    document.getElementById('publishModal').addEventListener('click', function(e) {
-        if(e.target === this) closePublishModal();
-    });
+    document.getElementById('publishModal').addEventListener('click', (e) => { if (e.target === this) closePublishModal(); });
     document.getElementById('slugInput').addEventListener('input', debounce(checkSlug, 300));
     document.getElementById('modalPublishBtn').addEventListener('click', performPublish);
 
-    // Category Modal events
+    // Category modal
     document.getElementById('closeCategoryModal').addEventListener('click', closeCategoryModal);
-    document.getElementById('categoryModal').addEventListener('click', function(e) {
-        if(e.target === this) closeCategoryModal();
-    });
+    document.getElementById('categoryModal').addEventListener('click', (e) => { if (e.target === this) closeCategoryModal(); });
 
-    // Canvas Properties events
+    // Canvas properties
     document.getElementById('applyCanvasProps').addEventListener('click', applyCanvasProperties);
 }
 
@@ -208,18 +193,15 @@ function setView(device, orientation) {
 function populateCategories() {
     const container = document.getElementById('category-list');
     const mobileContainer = document.getElementById('mobile-category-list');
-    if(!container) return;
+    if (!container) return;
     container.innerHTML = ''; mobileContainer.innerHTML = '';
 
     for (const cat of Object.keys(ELEMENT_LIBRARY)) {
-        // Create button for each category
         const btn = document.createElement('button');
         btn.className = 'category-btn';
         btn.textContent = cat;
         btn.dataset.category = cat;
-        btn.addEventListener('click', function() {
-            openCategoryModal(cat);
-        });
+        btn.addEventListener('click', () => openCategoryModal(cat));
         container.appendChild(btn);
         mobileContainer.appendChild(btn.cloneNode(true));
     }
@@ -227,42 +209,29 @@ function populateCategories() {
 
 // --- Category Modal ---
 function openCategoryModal(category) {
-    const modal = document.getElementById('categoryModal');
     document.getElementById('modalCategoryTitle').textContent = category;
     const itemsContainer = document.getElementById('modalCategoryItems');
     itemsContainer.innerHTML = '';
-
     const items = ELEMENT_LIBRARY[category] || [];
-    items.forEach((item, idx) => {
+    items.forEach((item) => {
         const div = document.createElement('div');
         div.className = 'modal-item';
-        div.innerHTML = `
-            <span class="item-label">${item.label}</span>
-            <span class="item-preview">${item.html}</span>
-        `;
-        div.addEventListener('click', function() {
-            // Add to canvas
-            addItemToCanvas(category, idx);
+        div.innerHTML = `<span class="item-label">${item.label}</span><span class="item-preview">${item.html}</span>`;
+        div.addEventListener('click', () => {
+            addItemToCanvas(item);
             closeCategoryModal();
         });
         itemsContainer.appendChild(div);
     });
-
-    modal.style.display = 'flex';
+    document.getElementById('categoryModal').style.display = 'flex';
 }
+function closeCategoryModal() { document.getElementById('categoryModal').style.display = 'none'; }
 
-function closeCategoryModal() {
-    document.getElementById('categoryModal').style.display = 'none';
-}
-
-function addItemToCanvas(category, idx) {
-    const item = ELEMENT_LIBRARY[category][idx];
+function addItemToCanvas(item) {
     const canvas = document.getElementById('canvas');
-    // Position at center
     const rect = canvas.getBoundingClientRect();
     const x = (rect.width - parseInt(item.defaultStyles.width || 200)) / 2;
     const y = (rect.height - parseInt(item.defaultStyles.height || 50)) / 2;
-    
     const el = {
         id: 'el-' + (nextId++), type: item.type, html: item.html,
         defaultStyles: { ...item.defaultStyles }, overrides: {},
@@ -279,7 +248,6 @@ function openCanvasProperties() {
     document.getElementById('canvasWidth').value = canvasProperties.width;
     document.getElementById('canvasHeight').value = canvasProperties.height;
 }
-
 function applyCanvasProperties() {
     canvasProperties.backgroundColor = document.getElementById('canvasBgColor').value;
     canvasProperties.width = parseInt(document.getElementById('canvasWidth').value) || 1366;
@@ -288,22 +256,161 @@ function applyCanvasProperties() {
     document.getElementById('canvas-properties-panel').style.display = 'none';
 }
 
-// ... rest of the functions remain mostly same with minor adjustments ...
+// --- Drop & Render ---
+function handleDrop(e) {
+    e.preventDefault();
+    const raw = e.dataTransfer.getData('text/plain');
+    if (!raw) return;
+    const { cat, idx } = JSON.parse(raw);
+    const item = ELEMENT_LIBRARY[cat]?.[idx];
+    if (!item) return;
+    const canvas = document.getElementById('canvas');
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const el = {
+        id: 'el-' + (nextId++), type: item.type, html: item.html,
+        defaultStyles: { ...item.defaultStyles }, overrides: {},
+        position: { left: x, top: y, width: parseInt(item.defaultStyles.width) || 200, height: parseInt(item.defaultStyles.height) || 50 }
+    };
+    elements.push(el); renderElement(el);
+}
 
-// NOTE: handleDrop, renderElement, renderAllElements, getStylesForView, makeDraggable, openProperties, etc. stay as before (just ensure they use canvasProperties if needed)
-// Since the original builder.js already had those, we skip duplicating them here. 
-// However, we need to ensure saveSite includes canvas properties.
+function renderElement(el) {
+    const canvas = document.getElementById('canvas');
+    const w = document.createElement('div');
+    w.className = 'element-wrapper'; w.id = el.id;
+    const styles = getStylesForView(el);
+    w.style.left = el.position.left + 'px';
+    w.style.top = el.position.top + 'px';
+    w.style.width = el.position.width + 'px';
+    w.style.height = el.position.height + 'px';
+    w.style.background = styles.background || '';
+    w.style.color = styles.color || '';
+    w.style.fontSize = styles.fontSize || '';
+    w.style.borderRadius = styles.borderRadius || '';
+    w.style.padding = styles.padding || '';
+    w.innerHTML = el.html;
+    w.addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.querySelectorAll('.element-wrapper').forEach(el => el.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedId = this.id;
+        openProperties(el);
+    });
+    w.addEventListener('dblclick', () => openProperties(el));
+    makeDraggable(w, el);
+    canvas.appendChild(w);
+}
 
+function renderAllElements() {
+    document.getElementById('canvas').innerHTML = '';
+    elements.forEach(el => renderElement(el));
+}
+
+function getStylesForView(el) {
+    const viewKey = currentDevice === 'pc' ? currentDevice : (currentOrientation === 'landscape' ? 'landscape' : currentDevice);
+    const ov = el.overrides && el.overrides[viewKey] ? el.overrides[viewKey] : null;
+    return ov || el.defaultStyles;
+}
+
+function makeDraggable(w, el) {
+    let sx, sy, ox, oy;
+    w.addEventListener('mousedown', function(e) {
+        if (e.target.closest('.element-wrapper')) {
+            sx = e.clientX; sy = e.clientY;
+            ox = parseInt(w.style.left); oy = parseInt(w.style.top);
+            w.style.zIndex = 1000;
+            const onMove = (e) => {
+                w.style.left = (ox + (e.clientX - sx)) + 'px';
+                w.style.top = (oy + (e.clientY - sy)) + 'px';
+            };
+            const onUp = () => {
+                document.removeEventListener('mousemove', onMove);
+                document.removeEventListener('mouseup', onUp);
+                w.style.zIndex = 1;
+                el.position.left = parseInt(w.style.left);
+                el.position.top = parseInt(w.style.top);
+            };
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+        }
+    });
+}
+
+// --- Properties Panel ---
+function openProperties(el) {
+    const panel = document.getElementById('properties-panel');
+    panel.style.display = 'block'; panel.dataset.id = el.id;
+    const s = getStylesForView(el);
+    document.getElementById('propText').value = s.text || '';
+    document.getElementById('propLink').value = s.link || '';
+    document.getElementById('propBgColor').value = s.background || '#ffffff';
+    document.getElementById('propTextColor').value = s.color || '#000000';
+    document.getElementById('propFontSize').value = s.fontSize || '16px';
+    document.getElementById('propPadding').value = s.padding || '4px';
+    document.getElementById('propRadius').value = s.borderRadius || '8px';
+    document.getElementById('propWidth').value = el.position.width + 'px';
+    document.getElementById('propHeight').value = el.position.height + 'px';
+}
+
+document.getElementById('properties-panel').addEventListener('input', function(e) {
+    const panel = document.getElementById('properties-panel');
+    const el = elements.find(e => e.id === panel.dataset.id);
+    if (!el) return;
+    const view = document.getElementById('propView').value;
+    const styles = {
+        text: document.getElementById('propText').value, link: document.getElementById('propLink').value,
+        background: document.getElementById('propBgColor').value, color: document.getElementById('propTextColor').value,
+        fontSize: document.getElementById('propFontSize').value, padding: document.getElementById('propPadding').value,
+        borderRadius: document.getElementById('propRadius').value
+    };
+    const w = parseInt(document.getElementById('propWidth').value) || 200;
+    const h = parseInt(document.getElementById('propHeight').value) || 50;
+    const viewKey = view === 'default' ? null : view;
+    if (!viewKey) {
+        Object.assign(el.defaultStyles, styles);
+        el.position.width = w; el.position.height = h;
+    } else {
+        if (!el.overrides) el.overrides = {};
+        el.overrides[viewKey] = { ...styles, position: { left: el.position.left, top: el.position.top, width: w, height: h } };
+    }
+    renderAllElements(); document.getElementById(el.id).classList.add('selected');
+});
+
+// --- Cloudinary ---
+async function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', window.UPLOAD_PRESET);
+    try {
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${window.CLOUD_NAME}/image/upload`, { method: 'POST', body: formData });
+        const data = await res.json();
+        if (data.secure_url) {
+            const panel = document.getElementById('properties-panel');
+            const el = elements.find(e => e.id === panel.dataset.id);
+            if (el && el.type === 'image') {
+                el.html = `<img src="${data.secure_url}" style="width:100%; height:100%; object-fit:cover;">`;
+                renderAllElements(); document.getElementById(el.id).classList.add('selected');
+            }
+        }
+    } catch (err) { alert('Upload failed'); }
+}
+
+// --- Save & Publish ---
 async function saveSite() {
-    // Update element positions
     document.querySelectorAll('.element-wrapper').forEach(w => {
         const el = elements.find(e => e.id === w.id);
-        if (el) { el.position.left = parseInt(w.style.left); el.position.top = parseInt(w.style.top); }
+        if (el) {
+            el.position.left = parseInt(w.style.left);
+            el.position.top = parseInt(w.style.top);
+            el.position.width = parseInt(w.style.width);
+            el.position.height = parseInt(w.style.height);
+        }
     });
-    const payload = { 
-        elements: elements,
-        canvas: canvasProperties
-    };
+    const payload = { elements, canvas: canvasProperties };
     const res = await fetch(`/site/${siteId}/save`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -311,8 +418,90 @@ async function saveSite() {
     if (res.ok) alert('Saved!'); else alert('Error saving');
 }
 
-// ... also need to handle canvas properties in load from SITE_DATA (already done in initBuilder)
-// For brevity, I'm not repeating all the unchanged functions. The user can keep their existing ones.
-// But we must ensure that the canvas properties are saved and loaded.
+// --- Publish popover ---
+function openPublishModal() {
+    document.getElementById('publishModal').style.display = 'flex';
+    document.getElementById('slugInput').value = '';
+    document.getElementById('slugStatus').className = 'slug-status';
+    document.getElementById('slugMessage').innerHTML = '';
+    document.getElementById('modalPublishBtn').disabled = true;
+    document.getElementById('slugInput').focus();
+}
+function closePublishModal() { document.getElementById('publishModal').style.display = 'none'; }
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+async function checkSlug() {
+    const input = document.getElementById('slugInput');
+    const status = document.getElementById('slugStatus');
+    const msg = document.getElementById('slugMessage');
+    const publishBtn = document.getElementById('modalPublishBtn');
+    const slug = input.value.trim().toLowerCase();
+    if (!slug) {
+        status.className = 'slug-status';
+        msg.innerHTML = '';
+        publishBtn.disabled = true;
+        return;
+    }
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) {
+        status.className = 'slug-status invalid';
+        msg.innerHTML = 'Only lowercase letters, numbers, and hyphens allowed.';
+        publishBtn.disabled = true;
+        return;
+    }
+    try {
+        const res = await fetch(`/site/check-slug?slug=${encodeURIComponent(slug)}`);
+        const data = await res.json();
+        if (data.available) {
+            status.className = 'slug-status valid';
+            msg.innerHTML = '✓ Available!';
+            publishBtn.disabled = false;
+        } else {
+            status.className = 'slug-status invalid';
+            msg.innerHTML = data.message || 'Not available.';
+            publishBtn.disabled = true;
+        }
+    } catch (err) {
+        status.className = 'slug-status invalid';
+        msg.innerHTML = 'Error checking availability.';
+        publishBtn.disabled = true;
+    }
+}
+async function performPublish() {
+    const slug = document.getElementById('slugInput').value.trim().toLowerCase();
+    if (!slug) return;
+    const publishBtn = document.getElementById('modalPublishBtn');
+    publishBtn.disabled = true;
+    publishBtn.textContent = 'Publishing...';
+    try {
+        const res = await fetch(`/site/${siteId}/publish`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+            alert(`🎉 Published!\nLive URL: ${data.url}`);
+            closePublishModal();
+        } else {
+            alert(`Error: ${data.error || 'Publish failed.'}`);
+        }
+    } catch (err) {
+        alert('Network error. Please try again.');
+    } finally {
+        publishBtn.disabled = false;
+        publishBtn.textContent = 'Publish';
+    }
+}
 
-// The rest of the functions (handleDrop, renderElement, renderAllElements, getStylesForView, makeDraggable, openProperties, handleImageUpload, publishModal, etc.) remain exactly as before.
+function previewSite() {
+    window.open(`/s/`, '_blank');
+}
+function deleteElement(id) {
+    elements = elements.filter(e => e.id !== id);
+    renderAllElements();
+}

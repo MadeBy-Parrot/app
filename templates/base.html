@@ -8,16 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <!-- ক্যাশ-বাস্টিং সহ CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{ range(1, 10000) | random }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}?v={{ range(1, 10000) | random }}" />
     <style>
-        @font-face {
-            font-family: 'Virgo';
-            src: url('/static/fonts/Virgo.woff2') format('woff2');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-        }
+        @font-face { font-family: 'Virgo'; src: url('/static/fonts/Virgo.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
         .font-virgo { font-family: 'Virgo', 'Outfit', sans-serif; }
         .font-outfit { font-family: 'Outfit', sans-serif; }
         .font-inter { font-family: 'Inter', sans-serif; }
@@ -26,6 +19,7 @@
     {% if current_user.is_authenticated %}
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     {% endif %}
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
     <div id="app-container">
@@ -37,7 +31,6 @@
             </div>
             <div class="navbar-right">
                 {% if current_user.is_authenticated %}
-                    <!-- Avatar with dropdown -->
                     <div class="avatar-wrapper">
                         <div class="avatar" id="avatarBtn" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
                             {{ current_user.username[0]|upper }}
@@ -51,19 +44,11 @@
                                 </div>
                             </div>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <span class="material-icons">person</span> My Profile
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                <span class="material-icons">settings</span> Settings
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                <span class="material-icons">help_outline</span> Help
-                            </a>
+                            <a href="#" class="dropdown-item"><span class="material-icons">person</span> My Profile</a>
+                            <a href="#" class="dropdown-item"><span class="material-icons">settings</span> Settings</a>
+                            <a href="#" class="dropdown-item"><span class="material-icons">help_outline</span> Help</a>
                             <div class="dropdown-divider"></div>
-                            <a href="{{ url_for('logout') }}" class="dropdown-item logout-item">
-                                <span class="material-icons">logout</span> Logout
-                            </a>
+                            <a href="{{ url_for('logout') }}" class="dropdown-item logout-item"><span class="material-icons">logout</span> Logout</a>
                         </div>
                     </div>
                 {% else %}

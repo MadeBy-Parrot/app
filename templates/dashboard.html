@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}?v={{ range(1, 10000) | random }}" />
+{% endblock %}
 {% block content %}
 <div class="dashboard-container">
     <div class="dashboard-header">
@@ -50,9 +53,7 @@
     {% else %}
     <div class="empty-state">
         <div class="empty-state-card">
-            <div class="empty-icon">
-                <span class="material-icons">web</span>
-            </div>
+            <div class="empty-icon"><span class="material-icons">web</span></div>
             <h3 class="font-outfit">No websites yet</h3>
             <p class="empty-text">Create your first website and start building something great.</p>
             <form method="POST" action="{{ url_for('create_site') }}">

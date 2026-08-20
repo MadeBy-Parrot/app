@@ -8,17 +8,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}?v={{ range(1, 10000) | random }}" />
     <style>
-        body { margin:0; background:#f7f8fc; font-family:Inter, sans-serif; }
+        body { margin:0; background:#f7f8fc; }
         .live-container { position:relative; width:100%; max-width:1366px; margin:0 auto; background:#fff; min-height:100vh; }
         .element-wrapper { position:absolute; cursor:default; }
     </style>
 </head>
 <body>
-    <div class="live-container" id="live">
-        <!-- JS Render করবে -->
-    </div>
+    <div class="live-container" id="live"></div>
     <script>
         const data = {{ site.data | safe }};
         const c = document.getElementById('live');
@@ -27,8 +25,6 @@
                 const d = document.createElement('div');
                 d.className = 'element-wrapper';
                 d.style.cssText = `left:${el.position.left}px; top:${el.position.top}px; width:${el.position.width}px; height:${el.position.height}px;`;
-                
-                // apply default styles (live site uses desktop default)
                 const s = el.defaultStyles || {};
                 if (s.background) d.style.background = s.background;
                 if (s.color) d.style.color = s.color;
@@ -37,7 +33,6 @@
                 if (s.fontSize) d.style.fontSize = s.fontSize;
                 if (s.fontWeight) d.style.fontWeight = s.fontWeight;
                 if (s.border) d.style.border = s.border;
-                
                 d.innerHTML = el.html;
                 c.appendChild(d);
             });

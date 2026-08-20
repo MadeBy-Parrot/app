@@ -1,0 +1,33 @@
+/* ===== Login page styles ===== */
+.auth-container {
+    max-width: 420px; margin: 60px auto; background: var(--surface);
+    border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-soft);
+    text-align: center;
+}
+.auth-container h2 { font-family: var(--font-heading); margin-top: 0; }
+
+.google-login-btn {
+    width: 100%; min-height: 54px; padding: 0 18px; display: flex; align-items: center; justify-content: center; gap: 12px;
+    background: #fff; border: 1px solid #d9dbe3; border-radius: 13px; color: #232846;
+    font-family: var(--font-body); font-size: 16px; font-weight: 600; cursor: pointer;
+    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+}
+.google-login-btn:hover { transform: translateY(-1px); border-color: #c7cad5; box-shadow: 0 6px 18px rgba(35,40,70,0.10); background: #fafafa; }
+.google-login-btn:disabled { opacity: 0.65; transform: none; box-shadow: none; }
+
+.google-icon { width: 21px; height: 21px; flex: 0 0 21px; }
+
+.google-spinner { width: 18px; height: 18px; border: 2px solid rgba(35,40,70,0.18); border-top-color: #232846; border-radius: 50%; animation: googleSpin 0.7s linear infinite; }
+@keyframes googleSpin { to { transform: rotate(360deg); } }
+
+.login-error {
+    display: none; margin-top: 16px; padding: 11px 13px; border-radius: 10px;
+    background: rgba(220,53,69,0.07); border: 1px solid rgba(220,53,69,0.14);
+    color: #b42335; font-size: 13px; line-height: 1.5; text-align: left;
+}
+
+.gateway-note { margin: 22px 0 0; color: var(--primary-light); opacity: 0.72; font-size: 12px; }
+
+@media (max-width: 480px) {
+    .auth-container { margin: 40px auto; padding: 28px 22px; }
+}
