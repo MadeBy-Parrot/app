@@ -1,4 +1,4 @@
-// ELEMENT_LIBRARY (আপনার ইচ্ছামতো সম্প্রসারণ করুন)
+// ELEMENT_LIBRARY (সম্পূর্ণ লাইব্রেরি)
 const ELEMENT_LIBRARY = {
     'Layout': [
         { type: 'container', label: 'Container', html: '<div style="padding:20px; border:1px dashed #ccc;">Container</div>', defaultStyles: { width: '100%', height: '100px' } },
@@ -89,8 +89,25 @@ const ELEMENT_LIBRARY = {
     ],
     'Fonts': [
         { type: 'font', label: 'Outfit', html: '<div style="font-family:Outfit; font-size:24px; font-weight:700;">Outfit</div>', defaultStyles: { width: 'auto', height: 'auto' } },
-        { type: 'font', label: 'Inter', html: '<div style="font-family:Inter; font-size:16px;">Inter</div>', defaultStyles: { width: 'auto', height: 'auto' } },
-        { type: 'font', label: 'JetBrains', html: '<div style="font-family:JetBrains Mono; font-size:14px;">JetBrains</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Inter', html: '<div style="font-family:Inter; font-size:20px;">Inter</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'JetBrains Mono', html: '<div style="font-family:JetBrains Mono; font-size:18px;">JetBrains</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Roboto', html: '<div style="font-family:Roboto; font-size:20px;">Roboto</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Open Sans', html: '<div style="font-family:Open Sans; font-size:20px;">Open Sans</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Lato', html: '<div style="font-family:Lato; font-size:20px;">Lato</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Montserrat', html: '<div style="font-family:Montserrat; font-size:20px;">Montserrat</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Poppins', html: '<div style="font-family:Poppins; font-size:20px;">Poppins</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Playfair Display', html: '<div style="font-family:Playfair Display; font-size:20px;">Playfair</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Merriweather', html: '<div style="font-family:Merriweather; font-size:20px;">Merriweather</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Fira Code', html: '<div style="font-family:Fira Code; font-size:18px;">Fira Code</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Nunito', html: '<div style="font-family:Nunito; font-size:20px;">Nunito</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Raleway', html: '<div style="font-family:Raleway; font-size:20px;">Raleway</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Oswald', html: '<div style="font-family:Oswald; font-size:20px;">Oswald</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Source Sans Pro', html: '<div style="font-family:Source Sans Pro; font-size:20px;">Source Sans</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'DM Sans', html: '<div style="font-family:DM Sans; font-size:20px;">DM Sans</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Plus Jakarta Sans', html: '<div style="font-family:Plus Jakarta Sans; font-size:20px;">Jakarta Sans</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Space Grotesk', html: '<div style="font-family:Space Grotesk; font-size:20px;">Space Grotesk</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'Manrope', html: '<div style="font-family:Manrope; font-size:20px;">Manrope</div>', defaultStyles: { width: 'auto', height: 'auto' } },
+        { type: 'font', label: 'PT Sans', html: '<div style="font-family:PT Sans; font-size:20px;">PT Sans</div>', defaultStyles: { width: 'auto', height: 'auto' } },
     ]
 };
 
