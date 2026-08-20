@@ -8,7 +8,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=True)
+    password_hash = db.Column(db.String(128), nullable=True)  # ✅ এখন NULL অনুমোদিত
     is_verified = db.Column(db.Boolean, default=True)
     google_id = db.Column(db.String(100), unique=True, nullable=True)
     verification_token = db.Column(db.String(128), unique=True, nullable=True)

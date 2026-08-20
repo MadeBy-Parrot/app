@@ -17,36 +17,33 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# -------- অটোমেটিক ডাটাবেস মাইগ্রেশন --------
+# -------- অটোমেটিক ডাটাবেস মাইগ্রেশন (কলাম চেক ও যোগ) --------
 def migrate_database():
     inspector = inspect(db.engine)
-    
-    # Migrate User table
-    if inspector.has_table('user'):
-        columns = [col['name'] for col in inspector.get_columns('user')]
-        user_required = ['is_verified', 'google_id', 'verification_token', 'created_at']
-        with db.engine.connect() as conn:
-            for col_name in user_required:
-                if col_name not in columns:
-                    conn.execute(text(f"ALTER TABLE user ADD COLUMN {col_name} VARCHAR(128);"))
-                    print(f"✅ Added missing column '{col_name}' to user table.")
-            conn.commit()
-    
-    # Migrate Site table
-    if inspector.has_table('site'):
-        columns = [col['name'] for col in inspector.get_columns('site')]
-        site_required = ['created_at', 'updated_at']
-        with db.engine.connect() as conn:
-            for col_name in site_required:
-                if col_name not in columns:
-                    conn.execute(text(f"ALTER TABLE site ADD COLUMN {col_name} VARCHAR(128);"))
-                    print(f"✅ Added missing column '{col_name}' to site table.")
-            conn.commit()
+    if not inspector.has_table('user'):
+        return
 
-# -------- মাইগ্রেশন রান করা --------
+    columns = [col['name'] for col in inspector.get_columns('user')]
+    required = ['is_verified', 'google_id', 'verification_token', 'created_at']
+    with db.engine.connect() as conn:
+        for col_name in required:
+            if col_name not in columns:
+                conn.execute(text(f"ALTER TABLE user ADD COLUMN {col_name} VARCHAR(128);"))
+                print(f"✅ Added missing column '{col_name}' to user table.")
+        conn.commit()
+
+# -------- RESET_DB সুইচ (শুধুমাত্র প্রথম ডেপ্লয়ে ব্যবহার করবেন) --------
+reset_db = os.environ.get('RESET_DB', 'false').lower() == 'true'
+
 with app.app_context():
-    db.create_all()
-    migrate_database()
+    if reset_db:
+        print("⚠️ WARNING: Dropping all tables and recreating database...")
+        db.drop_all()
+        db.create_all()
+        print("✅ Database reset complete!")
+    else:
+        db.create_all()
+        migrate_database()
 
 # -------- রুট ইম্পোর্ট ---------
 from routes import init_routes
