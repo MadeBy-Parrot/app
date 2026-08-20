@@ -50,7 +50,7 @@
         <!-- Left Component Panel (Desktop) -->
         <div id="assets-panel">
             <h4 class="panel-title font-outfit">Components</h4>
-            <div id="component-list"></div>
+            <div id="category-list"></div> <!-- category buttons -->
         </div>
 
         <!-- Center Canvas -->
@@ -75,12 +75,43 @@
             <h4 class="font-outfit">Components</h4>
             <button id="closeMobileDrawer" class="close-btn"><span class="material-icons">close</span></button>
         </div>
-        <div class="drawer-body" id="mobile-component-list"></div>
+        <div class="drawer-body" id="mobile-category-list"></div>
     </div>
 
-    <!-- ===== PROPERTIES PANEL ===== -->
+    <!-- ===== CATEGORY ITEMS MODAL ===== -->
+    <div id="categoryModal" class="modal-overlay" style="display:none;">
+        <div class="modal-box large-modal">
+            <div class="modal-header">
+                <h4 class="font-outfit" id="modalCategoryTitle">Category</h4>
+                <button id="closeCategoryModal" class="modal-close-btn"><span class="material-icons">close</span></button>
+            </div>
+            <div class="modal-body scrollable" id="modalCategoryItems">
+                <!-- items will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CANVAS PROPERTIES PANEL (right drawer) ===== -->
+    <div id="canvas-properties-panel" style="display:none;">
+        <h4 class="font-outfit">Page Properties</h4>
+        <div class="prop-group">
+            <label>Background Color</label>
+            <input type="color" id="canvasBgColor" value="#ffffff" />
+        </div>
+        <div class="prop-group">
+            <label>Canvas Width</label>
+            <input type="text" id="canvasWidth" value="1366" />
+        </div>
+        <div class="prop-group">
+            <label>Canvas Height</label>
+            <input type="text" id="canvasHeight" value="768" />
+        </div>
+        <button id="applyCanvasProps" class="btn-primary">Apply</button>
+    </div>
+
+    <!-- ===== ELEMENT PROPERTIES PANEL ===== -->
     <div id="properties-panel">
-        <h4 class="font-outfit">Properties</h4>
+        <h4 class="font-outfit">Element Properties</h4>
         <div class="prop-group">
             <label>View Override</label>
             <select id="propView">
