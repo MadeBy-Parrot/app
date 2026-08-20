@@ -1,0 +1,15 @@
+.admin-container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.admin-header { margin-bottom: 32px; }
+.admin-header h1 { font-size: 28px; margin: 0 0 4px; }
+.admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+.admin-card { background: var(--surface); padding: 20px; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); }
+.admin-card h3 { margin: 0 0 16px; font-family: var(--font-heading); }
+.admin-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+.admin-form input, .admin-form textarea { padding: 10px; border: 1px solid #ddd; border-radius: var(--radius-sm); font-size: 14px; width: 100%; }
+.admin-form input[type="color"] { height: 40px; padding: 2px; }
+.admin-list { display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto; }
+.admin-list.flex-wrap { flex-direction: row; flex-wrap: wrap; }
+.list-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8f9fa; border-radius: var(--radius-sm); border: 1px solid #eee; }
+.color-swatch { width: 60px; height: 60px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 1px solid #ddd; }
+.font-item { padding: 8px 12px; background: #f8f9fa; border-radius: var(--radius-sm); border: 1px solid #eee; }
+.btn-danger-small { background: #E74C3C; color: white; border: none; padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }

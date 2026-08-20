@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_login import LoginManager
 from config import Config
-from models import db, User, Site
-import os
+from models import db, User, Site, Category, Element, ColorPalette, SiteFont
+import os, json
 from sqlalchemy import inspect, text
 
 app = Flask(__name__)
@@ -17,35 +17,41 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# -------- অটোমেটিক ডাটাবেস মাইগ্রেশন (কলাম চেক ও যোগ) --------
-def migrate_database():
-    inspector = inspect(db.engine)
-    if not inspector.has_table('user'):
-        return
+def seed_database():
+    # Seed Categories and Elements if empty
+    if Category.query.count() == 0:
+        default_cats = ['Layout', 'Buttons', 'Cards', 'Text', 'Inputs', 'Search Bars', 'Images', 'Shapes', 'Icons']
+        for cat_name in default_cats:
+            cat = Category(name=cat_name)
+            db.session.add(cat)
+        
+        # Add a sample button
+        button_cat = Category.query.filter_by(name='Buttons').first()
+        if button_cat:
+            btn = Element(
+                category_id=button_cat.id,
+                label='Primary',
+                type='button',
+                html='<button style="background:#232846; color:#fff; border:none; padding:12px 24px; border-radius:12px;">Get Started</button>',
+                default_styles=json.dumps({"width":"160px","height":"48px"})
+            )
+            db.session.add(btn)
+        
+        db.session.commit()
+        print("✅ Database seeded with default categories.")
 
-    columns = [col['name'] for col in inspector.get_columns('user')]
-    required = ['is_verified', 'google_id', 'verification_token', 'created_at']
-    with db.engine.connect() as conn:
-        for col_name in required:
-            if col_name not in columns:
-                conn.execute(text(f"ALTER TABLE user ADD COLUMN {col_name} VARCHAR(128);"))
-                print(f"✅ Added missing column '{col_name}' to user table.")
-        conn.commit()
-
-# -------- RESET_DB সুইচ (শুধুমাত্র প্রথম ডেপ্লয়ে ব্যবহার করবেন) --------
+# ---- Migration & DB init ----
 reset_db = os.environ.get('RESET_DB', 'false').lower() == 'true'
-
 with app.app_context():
     if reset_db:
-        print("⚠️ WARNING: Dropping all tables and recreating database...")
+        print("⚠️ Dropping and recreating DB...")
         db.drop_all()
         db.create_all()
-        print("✅ Database reset complete!")
+        seed_database()
     else:
         db.create_all()
-        migrate_database()
+        seed_database() # Only seed if empty
 
-# -------- রুট ইম্পোর্ট ---------
 from routes import init_routes
 init_routes(app, db)
 

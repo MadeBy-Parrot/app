@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}?v={{ range(1, 10000) | random }}" />
+{% endblock %}
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1 class="font-outfit">Admin Panel</h1>
+        <p>Manage builder assets (Elements, Colors, Fonts).</p>
+    </div>
+
+    <div class="admin-grid">
+        <!-- Manage Elements -->
+        <div class="admin-card">
+            <h3>Elements</h3>
+            <form id="elementForm" class="admin-form">
+                <input type="text" id="elemCategory" placeholder="Category (e.g. Buttons)" required />
+                <input type="text" id="elemLabel" placeholder="Label (e.g. Primary)" required />
+                <input type="text" id="elemType" placeholder="Type (e.g. button)" required />
+                <textarea id="elemHtml" placeholder="HTML code" rows="3" required></textarea>
+                <textarea id="elemStyles" placeholder='Styles JSON (e.g. {"width":"160px"})' rows="2"></textarea>
+                <button type="submit" class="btn-create">Add Element</button>
+            </form>
+            <div id="elementList" class="admin-list"></div>
+        </div>
+
+        <!-- Manage Colors -->
+        <div class="admin-card">
+            <h3>Colors</h3>
+            <form id="colorForm" class="admin-form">
+                <input type="text" id="colorName" placeholder="Color Name" required />
+                <input type="color" id="colorHex" value="#232846" />
+                <button type="submit" class="btn-create">Add Color</button>
+            </form>
+            <div id="colorList" class="admin-list flex-wrap"></div>
+        </div>
+
+        <!-- Manage Fonts -->
+        <div class="admin-card">
+            <h3>Fonts</h3>
+            <form id="fontForm" class="admin-form">
+                <input type="text" id="fontName" placeholder="Font Name (e.g. Roboto)" required />
+                <button type="submit" class="btn-create">Add Font</button>
+            </form>
+            <div id="fontList" class="admin-list flex-wrap"></div>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}
