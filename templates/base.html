@@ -8,7 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <!-- ক্যাশ-বাস্টিং সহ CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{ range(1, 10000) | random }}" />
     <style>
         @font-face {
             font-family: 'Virgo';
@@ -66,7 +67,6 @@
                         </div>
                     </div>
                 {% else %}
-                    <!-- শুধুমাত্র লগইন পেজ ছাড়া অন্য পেজে Login বাটন দেখাবে -->
                     {% if request.endpoint != 'login' %}
                         <a href="{{ url_for('login') }}" class="btn-login">Login</a>
                     {% endif %}
