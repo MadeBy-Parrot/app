@@ -4,21 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MadeBy-Parrot</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTQiIGhlaWdodD0iNTQiIHZpZXdCb3g9IjAgMCA1NCA1NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNTQiIGhlaWdodD0iNTQiIHJ4PSIxNiIgZmlsbD0iIzIzMjg0NiIvPjx0ZXh0IHg9IjI3IiB5PSIzNSIgZm9udC1mYW1pbHk9Ik91dGZpdCIsIGZvbnQtc2l6ZT0iMjIiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPk1QPC90ZXh0Pjwvc3ZnPg==">
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-    
-    <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-    
     <style>
         @font-face {
             font-family: 'Virgo';
@@ -32,40 +22,81 @@
         .font-inter { font-family: 'Inter', sans-serif; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
     </style>
+    {% if current_user.is_authenticated %}
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    {% endif %}
 </head>
 <body>
-    <nav class="navbar">
-        <a href="{{ url_for('dashboard') }}" class="logo">
-            <!-- P সরিয়ে শুধু টেক্সট রাখা হয়েছে -->
-            <span class="logo-text font-outfit">MadeBy-Parrot</span>
-        </a>
-        <div class="nav-links">
-            {% if current_user.is_authenticated %}
-                <a href="{{ url_for('dashboard') }}">Dashboard</a>
-                <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
-            {% else %}
-                <!-- লগইন পেজে থাকলে Login লিংক দেখাবে না -->
-                {% if request.endpoint != 'login' %}
-                    <a href="{{ url_for('login') }}">Login</a>
+    <div id="app-container">
+        <nav class="navbar">
+            <div class="navbar-left">
+                <a href="{{ url_for('dashboard') }}" class="logo">
+                    <span class="logo-text font-outfit">MadeBy-Parrot</span>
+                </a>
+            </div>
+            <div class="navbar-right">
+                {% if current_user.is_authenticated %}
+                    <!-- Avatar with dropdown -->
+                    <div class="avatar-wrapper">
+                        <div class="avatar" id="avatarBtn" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
+                            {{ current_user.username[0]|upper }}
+                        </div>
+                        <div class="avatar-dropdown" id="avatarDropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-avatar">{{ current_user.username[0]|upper }}</div>
+                                <div class="dropdown-user-info">
+                                    <div class="dropdown-name">{{ current_user.username }}</div>
+                                    <div class="dropdown-email">{{ current_user.email }}</div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <span class="material-icons">person</span> My Profile
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <span class="material-icons">settings</span> Settings
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <span class="material-icons">help_outline</span> Help
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{{ url_for('logout') }}" class="dropdown-item logout-item">
+                                <span class="material-icons">logout</span> Logout
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn-login">Login</a>
                 {% endif %}
-            {% endif %}
-        </div>
-    </nav>
-    <main class="main-content">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flash-messages">
-                    {% for message in messages %}
-                        <div class="flash">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
-    </main>
-    <footer class="footer">
-        <p>[Copyright] 2026-Present. MadeBy-Parrot powered by <a href="https://parrot-inv.onrender.com" target="_blank">Parrot Innovations</a>. All Rights Reserved.</p>
-    </footer>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for message in messages %}
+                            <div class="flash">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="footer">
+            <div class="footer-top">
+                <span class="footer-brand font-outfit">MadeBy-Parrot</span>
+                <span class="footer-copyright">© 2026 MadeBy-Parrot</span>
+                <span class="footer-powered">Powered by <a href="https://parrot-inv.onrender.com" target="_blank">Parrot Innovations</a></span>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Help</a>
+            </div>
+        </footer>
+    </div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

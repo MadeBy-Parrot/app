@@ -1,12 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="dashboard-container" style="max-width:1200px; margin:0 auto;">
+<div class="dashboard-container">
     <div class="dashboard-header">
-        <h1 class="font-outfit">My Websites</h1>
-        <form method="POST" action="{{ url_for('create_site') }}">
-            <button type="submit" class="btn-create">Create New Site</button>
-        </form>
+        <div class="header-left">
+            <h1 class="font-outfit">My Websites</h1>
+            <p class="header-subtitle">Manage and create all your websites in one place.</p>
+        </div>
+        <div class="header-right">
+            <form method="POST" action="{{ url_for('create_site') }}">
+                <button type="submit" class="btn-create">
+                    <span class="material-icons">add</span> Create New Site
+                </button>
+            </form>
+        </div>
     </div>
+
     {% if sites %}
     <div class="site-grid">
         {% for site in sites %}
@@ -16,14 +24,14 @@
                 <span class="status-badge {{ 'published' if site.published else 'draft' }}">
                     {{ 'Published' if site.published else 'Draft' }}
                 </span>
-                <span style="font-size:13px; color:#888; margin-left:8px;">Updated {{ site.updated_at.strftime('%b %d, %Y') }}</span>
+                <span class="site-date">Updated {{ site.updated_at.strftime('%b %d, %Y') }}</span>
             </div>
             <div class="site-actions">
                 <a href="{{ url_for('builder', site_id=site.id) }}" class="btn-edit">Edit</a>
                 {% if site.published %}
                 <a href="{{ url_for('view_site', slug=site.slug) }}" target="_blank" class="btn-view">View Live</a>
                 <form method="POST" action="{{ url_for('unpublish_site', site_id=site.id) }}" style="display:inline;">
-                    <button type="submit" class="btn-publish" style="background:#dc3545;">Unpublish</button>
+                    <button type="submit" class="btn-publish btn-unpublish">Unpublish</button>
                 </form>
                 {% else %}
                 <form method="POST" action="{{ url_for('publish_site', site_id=site.id) }}" style="display:inline;">
@@ -31,14 +39,29 @@
                 </form>
                 {% endif %}
                 <form method="POST" action="{{ url_for('delete_site', site_id=site.id) }}" style="display:inline;" onsubmit="return confirm('Delete this site?');">
-                    <button type="submit" class="btn-delete">Delete</button>
+                    <button type="submit" class="btn-delete">
+                        <span class="material-icons">delete</span>
+                    </button>
                 </form>
             </div>
         </div>
         {% endfor %}
     </div>
     {% else %}
-    <p style="text-align:center; color:var(--primary-light); font-size:18px;">No websites yet. Create your first site!</p>
+    <div class="empty-state">
+        <div class="empty-state-card">
+            <div class="empty-icon">
+                <span class="material-icons">web</span>
+            </div>
+            <h3 class="font-outfit">No websites yet</h3>
+            <p class="empty-text">Create your first website and start building something great.</p>
+            <form method="POST" action="{{ url_for('create_site') }}">
+                <button type="submit" class="btn-create">
+                    <span class="material-icons">add</span> Create New Site
+                </button>
+            </form>
+        </div>
+    </div>
     {% endif %}
 </div>
 {% endblock %}
