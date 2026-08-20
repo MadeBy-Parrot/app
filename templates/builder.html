@@ -14,13 +14,9 @@
         .font-virgo { font-family: 'Virgo', 'Outfit', sans-serif; }
         body { margin:0; overflow:hidden; height:100vh; background:#f7f8fc; }
         .builder-body { display:flex; flex-direction:column; height:100vh; }
-        
-        /* Conditional Property Rows */
-        .prop-conditional { display: none; }
     </style>
 </head>
 <body class="builder-body">
-    <!-- Top Bar -->
     <div id="topbar">
         <div style="display:flex; align-items:center; gap:8px; min-width:200px;">
             <span class="logo-p font-virgo">P</span>
@@ -41,17 +37,11 @@
         </div>
     </div>
 
-    <!-- Main Area -->
     <div id="main-area">
-        <!-- Left Panel -->
         <div id="assets-panel"></div>
-        
-        <!-- Canvas -->
         <div id="canvas-container">
             <div id="canvas"></div>
         </div>
-        
-        <!-- Properties Panel -->
         <div id="properties-panel">
             <h4>Properties</h4>
             <div class="prop-group">
@@ -69,27 +59,10 @@
                 <label>Text / Content</label>
                 <input type="text" id="propText" placeholder="Edit text here..." />
             </div>
-            
-            <!-- Conditional: Link (Buttons, Navbars, Footers) -->
-            <div class="prop-group prop-conditional" id="propLinkRow">
+            <div class="prop-group">
                 <label>Link URL</label>
                 <input type="text" id="propLink" placeholder="https://..." />
             </div>
-
-            <!-- Conditional: Image URL (Images) -->
-            <div class="prop-group prop-conditional" id="propImageRow">
-                <label>Image URL</label>
-                <input type="text" id="propImageUrl" placeholder="https://..." />
-                <button class="btn-cloudinary" onclick="document.getElementById('cloudinaryInput').click()">Upload Image</button>
-                <input type="file" id="cloudinaryInput" style="display:none;" accept="image/*">
-            </div>
-
-            <!-- Conditional: Placeholder (Inputs, Search Bars) -->
-            <div class="prop-group prop-conditional" id="propPlaceholderRow">
-                <label>Placeholder</label>
-                <input type="text" id="propPlaceholder" placeholder="Enter placeholder..." />
-            </div>
-
             <div class="prop-group">
                 <label>Background Color</label>
                 <input type="color" id="propBgColor" />
@@ -118,33 +91,19 @@
                 <label>Height</label>
                 <input type="text" id="propHeight" placeholder="50px" />
             </div>
+            <div class="prop-group">
+                <button class="btn-cloudinary" onclick="document.getElementById('cloudinaryInput').click()">Upload Image</button>
+                <input type="file" id="cloudinaryInput" style="display:none;" accept="image/*">
+            </div>
         </div>
     </div>
 
-    <!-- Global Variables -->
     <script>
         window.SITE_ID = {{ site.id }};
         window.SITE_DATA = {{ site.data | safe }};
-        window.CLOUD_NAME = "{{ cloud_name }}";
-        window.UPLOAD_PRESET = "{{ upload_preset }}";
+        window.CLOUD_NAME = "g99ay6kz";
+        window.UPLOAD_PRESET = "madeby_parrot_preset";
     </script>
-    
-    <!-- ALL Modular Category Scripts -->
-    <script src="{{ url_for('static', filename='js/builder_buttons.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/builder_navbars.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/builder_footers.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/builder_cards.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/builder_inputs.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/builder_searchbars.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/builder_text.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/builder_images.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/builder_shapes.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/builder_icons.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/builder_colors.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/builder_shadows.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/builder_fonts.js') }}"></script>
-    
-    <!-- Main Builder Script -->
     <script src="{{ url_for('static', filename='js/builder.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

@@ -12,7 +12,7 @@
     <style>
         @font-face {
             font-family: 'Virgo';
-            src: url('/fonts/Virgo.woff2') format('woff2');
+            src: url('/static/fonts/Virgo.woff2') format('woff2');
             font-weight: 700;
             font-style: normal;
             font-display: swap;
@@ -26,6 +26,7 @@
 <body>
     <nav class="navbar">
         <a href="{{ url_for('dashboard') }}" class="logo">
+            <span class="logo-p font-virgo">P</span>
             <span class="logo-text font-outfit">MadeBy-Parrot</span>
         </a>
         <div class="nav-links">
@@ -33,10 +34,7 @@
                 <a href="{{ url_for('dashboard') }}">Dashboard</a>
                 <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
             {% else %}
-                <!-- লগইন পেজে থাকলে Login লিংক দেখাবে না -->
-                {% if not request.endpoint == 'login' %}
-                    <a href="{{ url_for('login') }}">Login</a>
-                {% endif %}
+                <a href="{{ url_for('login') }}">Login</a>
             {% endif %}
         </div>
     </nav>

@@ -1,2 +1,2 @@
-// Empty placeholder for global JS
+// Placeholder for any global JS
 console.log('MadeBy-Parrot app ready.');

@@ -9,11 +9,19 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=True)
-    is_verified = db.Column(db.Boolean, default=False)
+    is_verified = db.Column(db.Boolean, default=True)
     google_id = db.Column(db.String(100), unique=True, nullable=True)
     verification_token = db.Column(db.String(128), unique=True, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     sites = db.relationship('Site', backref='owner', lazy=True, cascade='all, delete-orphan')
+
+    def set_password(self, password):
+        from werkzeug.security import generate_password_hash
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        from werkzeug.security import check_password_hash
+        return check_password_hash(self.password_hash, password)
 
 class Site(db.Model):
     id = db.Column(db.Integer, primary_key=True)
