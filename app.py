@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_login import LoginManager
 from config import Config
-from models import db, User
+from models import db, User, Site
 import os
 from sqlalchemy import inspect, text
 
@@ -17,29 +17,36 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# -------- অটোমেটিক ডাটাবেস মাইগ্রেশন (গ্লোবাল লেভেলে) --------
+# -------- অটোমেটিক ডাটাবেস মাইগ্রেশন --------
 def migrate_database():
-    """Check if required columns exist and add them if missing."""
     inspector = inspect(db.engine)
-    if not inspector.has_table('user'):
-        print("Table 'user' not found yet, skipping migration.")
-        return
-
-    columns = [col['name'] for col in inspector.get_columns('user')]
-    required = ['is_verified', 'google_id', 'verification_token']
     
-    with db.engine.connect() as conn:
-        for col_name in required:
-            if col_name not in columns:
-                # SQLite-তে ALTER TABLE ADD COLUMN
-                conn.execute(text(f"ALTER TABLE user ADD COLUMN {col_name} VARCHAR(128);"))
-                print(f"✅ Added missing column '{col_name}' to user table.")
-        conn.commit()
+    # Migrate User table
+    if inspector.has_table('user'):
+        columns = [col['name'] for col in inspector.get_columns('user')]
+        user_required = ['is_verified', 'google_id', 'verification_token', 'created_at']
+        with db.engine.connect() as conn:
+            for col_name in user_required:
+                if col_name not in columns:
+                    conn.execute(text(f"ALTER TABLE user ADD COLUMN {col_name} VARCHAR(128);"))
+                    print(f"✅ Added missing column '{col_name}' to user table.")
+            conn.commit()
+    
+    # Migrate Site table
+    if inspector.has_table('site'):
+        columns = [col['name'] for col in inspector.get_columns('site')]
+        site_required = ['created_at', 'updated_at']
+        with db.engine.connect() as conn:
+            for col_name in site_required:
+                if col_name not in columns:
+                    conn.execute(text(f"ALTER TABLE site ADD COLUMN {col_name} VARCHAR(128);"))
+                    print(f"✅ Added missing column '{col_name}' to site table.")
+            conn.commit()
 
 # -------- মাইগ্রেশন রান করা --------
 with app.app_context():
-    db.create_all()          # টেবিল তৈরি হয় (যদি না থাকে)
-    migrate_database()       # কলাম যুক্ত করা
+    db.create_all()
+    migrate_database()
 
 # -------- রুট ইম্পোর্ট ---------
 from routes import init_routes
