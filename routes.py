@@ -5,22 +5,32 @@ import json
 import requests
 
 def init_routes(app, db):
-    # ------------------- Firebase Auth (REST API - No SDK needed) -------------------
+    
+    # -------- JSON Error Handlers for API routes --------
+    @app.errorhandler(404)
+    def not_found_error(e):
+        return jsonify({"error": "Resource not found"}), 404
+
+    @app.errorhandler(500)
+    def internal_error(e):
+        # Flask debug mode বন্ধ থাকলে বা Render-এ এই JSON রিটার্ন করবে
+        return jsonify({"error": "Internal server error occurred. Check Flask logs for details."}), 500
+
+    # ------------------- Firebase Auth (REST API) -------------------
     @app.route('/auth/firebase', methods=['POST'])
     def auth_firebase():
-        id_token = request.json.get('idToken')
-        if not id_token:
-            return jsonify({"error": "No token provided"}), 400
-
-        api_key = app.config['FIREBASE_WEB_API_KEY']
-        url = f"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={api_key}"
-        
         try:
-            # ফায়ারবেসে টোকেন চেক করার চেষ্টা করা হচ্ছে
+            id_token = request.json.get('idToken')
+            if not id_token:
+                return jsonify({"error": "No token provided"}), 400
+
+            api_key = app.config.get('FIREBASE_WEB_API_KEY', 'AIzaSyD538lgMjUEUXSbNFQuVgNphe0OVackYuk')
+            url = f"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={api_key}"
+            
+            # ফায়ারবেসে টোকেন চেক করার চেষ্টা
             resp = requests.post(url, json={"idToken": id_token})
             data = resp.json()
             
-            # যদি টোকেন ভুল হয়, গুগল থেকে যে এরর মেসেজ আসে সেটাই রিটার্ন করবে
             if resp.status_code != 200:
                 error_msg = data.get('error', {}).get('message', 'Invalid Firebase token')
                 return jsonify({"error": error_msg}), 401
@@ -32,25 +42,32 @@ def init_routes(app, db):
             email = user_info.get('email')
             name = user_info.get('displayName', 'User')
             
+        except requests.exceptions.RequestException as e:
+            print(f"🔥 Firebase network error: {e}")
+            return jsonify({"error": "Unable to reach Firebase. Check API Key or Network."}), 503
         except Exception as e:
-            print(f"Firebase token verification failed: {e}")
+            print(f"🔥 Firebase token verification failed: {e}")
             return jsonify({"error": f"Server error: {str(e)}"}), 401
 
         # ডাটাবেসে ইউজার খোঁজা বা তৈরি করা
-        user = User.query.filter_by(email=email).first()
-        if not user:
-            user = User(
-                email=email,
-                username=name,
-                is_verified=True,
-                password_hash=None,
-                verification_token=None
-            )
-            db.session.add(user)
-            db.session.commit()
+        try:
+            user = User.query.filter_by(email=email).first()
+            if not user:
+                user = User(
+                    email=email,
+                    username=name,
+                    is_verified=True,
+                    password_hash=None,
+                    verification_token=None
+                )
+                db.session.add(user)
+                db.session.commit()
 
-        login_user(user)
-        return jsonify({"success": True})
+            login_user(user)
+            return jsonify({"success": True})
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({"error": f"Database error: {str(e)}"}), 500
 
     # ------------------- Login Page -------------------
     @app.route('/login')

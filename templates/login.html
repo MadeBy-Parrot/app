@@ -348,12 +348,24 @@
                 })
             });
 
+            // ব্যাকএন্ড থেকে আসা রেসপন্স চেক করা
             if (!response.ok) {
-                // ব্যাকএন্ড থেকে স্পেসিফিক এরর মেসেজ পড়ে দেখানো হবে
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Unable to complete authentication.');
+                const contentType = response.headers.get('content-type');
+                
+                // যদি JSON ফেরত আসে, তাহলে এরর মেসেজ পড়া হবে
+                if (contentType && contentType.includes('application/json')) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Authentication failed.');
+                } 
+                // যদি HTML ফেরত আসে (যেমন 500 Server Error), তাহলে টেক্সট পড়ে কনসোলে দেখানো হবে
+                else {
+                    const errorText = await response.text();
+                    console.error('⚠️ Server returned HTML instead of JSON:', errorText);
+                    throw new Error('Server error (500). Check Flask logs or your Render logs.');
+                }
             }
 
+            // লগইন সফল হলে ড্যাশবোর্ডে পাঠানো
             window.location.href = '/dashboard';
 
         } catch (error) {
