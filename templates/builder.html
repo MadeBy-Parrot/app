@@ -4,14 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Builder - MadeBy-Parrot</title>
+    <!-- ফন্ট ও সিএসএস লোড করা -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    
     <style>
         @font-face { font-family: 'Virgo'; src: url('/static/fonts/Virgo.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
         .font-virgo { font-family: 'Virgo', 'Outfit', sans-serif; }
+        body { margin:0; overflow:hidden; height:100vh; background:#f7f8fc; }
+        .builder-body { display:flex; flex-direction:column; height:100vh; }
     </style>
 </head>
 <body class="builder-body">
@@ -19,9 +23,9 @@
     <!-- ===== TOP BAR ===== -->
     <div id="topbar">
         <div class="topbar-left">
-            <span class="logo-p font-virgo">P</span>
+            <!-- P সরিয়ে ফেলা হয়েছে -->
             <span class="logo-text font-outfit">MadeBy-Parrot</span>
-            <input type="text" class="site-name-input" value="{{ site.name }}" id="siteName" />
+            <input type="text" class="site-name-input" value="{{ site.name }}" id="siteName" placeholder="Site Name" />
         </div>
         
         <div class="topbar-center" id="topbarDeviceControls">
