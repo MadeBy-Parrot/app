@@ -6,15 +6,14 @@ import requests
 
 def init_routes(app, db):
     
-    # -------- JSON Error Handlers for API routes --------
+    # -------- JSON Error Handlers --------
     @app.errorhandler(404)
     def not_found_error(e):
         return jsonify({"error": "Resource not found"}), 404
 
     @app.errorhandler(500)
     def internal_error(e):
-        # Flask debug mode বন্ধ থাকলে বা Render-এ এই JSON রিটার্ন করবে
-        return jsonify({"error": "Internal server error occurred. Check Flask logs for details."}), 500
+        return jsonify({"error": "Internal server error occurred. Check Flask logs."}), 500
 
     # ------------------- Firebase Auth (REST API) -------------------
     @app.route('/auth/firebase', methods=['POST'])
@@ -27,7 +26,6 @@ def init_routes(app, db):
             api_key = app.config.get('FIREBASE_WEB_API_KEY', 'AIzaSyD538lgMjUEUXSbNFQuVgNphe0OVackYuk')
             url = f"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={api_key}"
             
-            # ফায়ারবেসে টোকেন চেক করার চেষ্টা
             resp = requests.post(url, json={"idToken": id_token})
             data = resp.json()
             
@@ -41,7 +39,7 @@ def init_routes(app, db):
             user_info = data['users'][0]
             email = user_info.get('email')
             name = user_info.get('displayName', 'User')
-            
+            uid = user_info.get('localId')  # Firebase UID
         except requests.exceptions.RequestException as e:
             print(f"🔥 Firebase network error: {e}")
             return jsonify({"error": "Unable to reach Firebase. Check API Key or Network."}), 503
@@ -49,15 +47,17 @@ def init_routes(app, db):
             print(f"🔥 Firebase token verification failed: {e}")
             return jsonify({"error": f"Server error: {str(e)}"}), 401
 
-        # ডাটাবেসে ইউজার খোঁজা বা তৈরি করা
+        # Database: find or create user
         try:
             user = User.query.filter_by(email=email).first()
             if not user:
+                # নতুন ইউজার তৈরি – password_hash-এ ডামি মান দিন (NOT NULL এড়াতে)
                 user = User(
                     email=email,
                     username=name,
                     is_verified=True,
-                    password_hash=None,
+                    password_hash="google-oauth",   # ✅ NOT NULL সমস্যা এড়াতে ডামি মান
+                    google_id=uid,
                     verification_token=None
                 )
                 db.session.add(user)
