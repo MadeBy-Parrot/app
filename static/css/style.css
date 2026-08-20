@@ -79,16 +79,17 @@ a { text-decoration: none; color: inherit; }
     min-height: calc(100vh - 200px);
 }
 
-/* Footer */
+/* Footer - ডার্ক থেকে হোয়াইট করা হয়েছে */
 .footer {
-    background: var(--primary-dark);
-    color: #fff;
+    background: var(--surface);
+    color: var(--primary);
     text-align: center;
     padding: 20px;
     font-size: 14px;
+    border-top: 1px solid #eee; /* একটি আলাদা সীমানা দেয়া হয়েছে */
 }
 .footer a {
-    color: var(--accent-green);
+    color: var(--primary-light);
     text-decoration: underline;
 }
 

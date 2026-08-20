@@ -12,18 +12,21 @@ def init_routes(app, db):
         if not id_token:
             return jsonify({"error": "No token provided"}), 400
 
-        # Firebase REST API দিয়ে টোকেন ভেরিফাই করা হচ্ছে
         api_key = app.config['FIREBASE_WEB_API_KEY']
         url = f"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={api_key}"
         
         try:
+            # ফায়ারবেসে টোকেন চেক করার চেষ্টা করা হচ্ছে
             resp = requests.post(url, json={"idToken": id_token})
-            if resp.status_code != 200:
-                return jsonify({"error": "Invalid token"}), 401
-            
             data = resp.json()
+            
+            # যদি টোকেন ভুল হয়, গুগল থেকে যে এরর মেসেজ আসে সেটাই রিটার্ন করবে
+            if resp.status_code != 200:
+                error_msg = data.get('error', {}).get('message', 'Invalid Firebase token')
+                return jsonify({"error": error_msg}), 401
+            
             if 'users' not in data or not data['users']:
-                return jsonify({"error": "User not found"}), 401
+                return jsonify({"error": "User not found on Firebase"}), 401
             
             user_info = data['users'][0]
             email = user_info.get('email')
@@ -31,7 +34,7 @@ def init_routes(app, db):
             
         except Exception as e:
             print(f"Firebase token verification failed: {e}")
-            return jsonify({"error": "Verification failed"}), 401
+            return jsonify({"error": f"Server error: {str(e)}"}), 401
 
         # ডাটাবেসে ইউজার খোঁজা বা তৈরি করা
         user = User.query.filter_by(email=email).first()

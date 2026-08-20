@@ -1,21 +1,261 @@
 {% extends "base.html" %}
 {% block content %}
+
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
-<div class="auth-container" style="text-align: center; padding: 40px 30px;">
-    <div style="margin-bottom: 20px;">
-        <svg width="80" height="80" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-    </div>
+<style>
+    .gateway-page {
+        min-height: calc(100vh - 120px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        box-sizing: border-box;
+    }
 
-    <button id="googleLoginBtn" style="display: block; width: 100%; padding: 14px 0; margin-bottom: 24px; background: #fff; border: 1px solid #ddd; border-radius: 12px; font-size: 18px; font-weight: 500; text-decoration: none; color: #232846; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;">
-        Sign in with Google
-    </button>
+    .gateway-card {
+        width: 100%;
+        max-width: 420px;
+        padding: 42px 34px 34px;
+        text-align: center;
+        box-sizing: border-box;
 
-    <p style="font-size: 13px; color: #3E466E; line-height: 1.5; margin: 0; opacity: 0.85;">
-        We use Firebase to keep your account secure. Google verifies your identity and prevents fake or spam registrations.
-    </p>
+        background: #ffffff;
+        border: 1px solid rgba(35, 40, 70, 0.10);
+        border-radius: 22px;
+        box-shadow: 0 12px 35px rgba(35, 40, 70, 0.08);
+    }
+
+    .gateway-brand {
+        width: 54px;
+        height: 54px;
+        margin: 0 auto 22px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 16px;
+        background: #232846;
+        color: #ffffff;
+
+        font-family: 'Outfit', sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .gateway-card h2 {
+        margin: 0 0 10px;
+        font-family: 'Outfit', sans-serif;
+        font-size: 27px;
+        line-height: 1.2;
+        font-weight: 700;
+        color: #232846;
+    }
+
+    .gateway-description {
+        margin: 0 auto 28px;
+        max-width: 320px;
+
+        color: #3E466E;
+        font-family: 'Outfit', sans-serif;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .google-login-btn {
+        width: 100%;
+        min-height: 54px;
+        padding: 0 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+
+        background: #ffffff;
+        border: 1px solid #d9dbe3;
+        border-radius: 13px;
+
+        color: #232846;
+        font-family: 'Outfit', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+
+        cursor: pointer;
+        transition:
+            transform 0.18s ease,
+            box-shadow 0.18s ease,
+            border-color 0.18s ease,
+            background 0.18s ease;
+    }
+
+    .google-login-btn:hover {
+        transform: translateY(-1px);
+        border-color: #c7cad5;
+        box-shadow: 0 6px 18px rgba(35, 40, 70, 0.10);
+        background: #fafafa;
+    }
+
+    .google-login-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 3px 10px rgba(35, 40, 70, 0.08);
+    }
+
+    .google-login-btn:focus-visible {
+        outline: 3px solid rgba(62, 70, 110, 0.20);
+        outline-offset: 3px;
+    }
+
+    .google-login-btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .google-icon {
+        width: 21px;
+        height: 21px;
+        flex: 0 0 21px;
+    }
+
+    .google-btn-content {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .google-spinner {
+        width: 18px;
+        height: 18px;
+
+        border: 2px solid rgba(35, 40, 70, 0.18);
+        border-top-color: #232846;
+        border-radius: 50%;
+
+        animation: googleSpin 0.7s linear infinite;
+    }
+
+    @keyframes googleSpin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .login-error {
+        display: none;
+        margin-top: 16px;
+        padding: 11px 13px;
+
+        border-radius: 10px;
+        background: rgba(220, 53, 69, 0.07);
+        border: 1px solid rgba(220, 53, 69, 0.14);
+
+        color: #b42335;
+        font-family: 'Outfit', sans-serif;
+        font-size: 13px;
+        line-height: 1.5;
+        text-align: left;
+    }
+
+    .gateway-note {
+        margin: 22px 0 0;
+
+        color: #3E466E;
+        opacity: 0.72;
+
+        font-family: 'Outfit', sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+        .gateway-page {
+            padding: 28px 16px;
+        }
+
+        .gateway-card {
+            padding: 34px 22px 28px;
+            border-radius: 19px;
+        }
+
+        .gateway-card h2 {
+            font-size: 24px;
+        }
+
+        .gateway-description {
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+    }
+</style>
+
+<div class="gateway-page">
+
+    <main class="gateway-card">
+
+        <div class="gateway-brand" aria-hidden="true">
+            MP
+        </div>
+
+        <h2>Welcome to MadeBy-Parrot</h2>
+
+        <p class="gateway-description">
+            Sign in with Google to continue to MadeBy-Parrot.
+        </p>
+
+        <button
+            id="googleLoginBtn"
+            class="google-login-btn"
+            type="button"
+            aria-label="Continue with Google"
+        >
+            <span class="google-btn-content" id="googleBtnContent">
+
+                <svg
+                    class="google-icon"
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                >
+                    <path
+                        fill="#FFC107"
+                        d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"
+                    />
+                    <path
+                        fill="#FF3D00"
+                        d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"
+                    />
+                    <path
+                        fill="#4CAF50"
+                        d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"
+                    />
+                    <path
+                        fill="#1976D2"
+                        d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.193 5.236C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"
+                    />
+                </svg>
+
+                <span id="googleBtnText">Continue with Google</span>
+
+            </span>
+        </button>
+
+        <div
+            id="loginError"
+            class="login-error"
+            role="alert"
+        ></div>
+
+        <p class="gateway-note">
+            Google is the only way to access MadeBy-Parrot.
+        </p>
+
+    </main>
+
 </div>
 
 <script>
@@ -31,27 +271,108 @@
 
     firebase.initializeApp(firebaseConfig);
 
-    document.getElementById('googleLoginBtn').addEventListener('click', function() {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider)
-            .then((result) => {
-                return result.user.getIdToken();
-            })
-            .then((idToken) => {
-                return fetch('/auth/firebase', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ idToken: idToken })
-                });
-            })
-            .then((res) => {
-                if (res.ok) window.location.href = '/dashboard';
-                else alert('Login failed. Check backend.');
-            })
-            .catch((error) => {
-                console.error(error);
-                alert('Firebase Login Error: ' + error.message);
+    const googleLoginBtn = document.getElementById('googleLoginBtn');
+    const googleBtnContent = document.getElementById('googleBtnContent');
+    const googleBtnText = document.getElementById('googleBtnText');
+    const loginError = document.getElementById('loginError');
+
+    function setLoading(loading) {
+        googleLoginBtn.disabled = loading;
+
+        if (loading) {
+            googleBtnContent.innerHTML = `
+                <span class="google-spinner" aria-hidden="true"></span>
+                <span>Connecting...</span>
+            `;
+        } else {
+            googleBtnContent.innerHTML = `
+                <svg
+                    class="google-icon"
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                >
+                    <path
+                        fill="#FFC107"
+                        d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"
+                    />
+                    <path
+                        fill="#FF3D00"
+                        d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"
+                    />
+                    <path
+                        fill="#4CAF50"
+                        d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"
+                    />
+                    <path
+                        fill="#1976D2"
+                        d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.193 5.236C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"
+                    />
+                </svg>
+                <span>Continue with Google</span>
+            `;
+        }
+    }
+
+    function showError(message) {
+        loginError.textContent = message;
+        loginError.style.display = 'block';
+    }
+
+    function hideError() {
+        loginError.textContent = '';
+        loginError.style.display = 'none';
+    }
+
+    googleLoginBtn.addEventListener('click', async () => {
+        hideError();
+        setLoading(true);
+
+        try {
+            const provider = new firebase.auth.GoogleAuthProvider();
+
+            provider.setCustomParameters({
+                prompt: 'select_account'
             });
+
+            const result = await firebase.auth().signInWithPopup(provider);
+
+            const idToken = await result.user.getIdToken();
+
+            const response = await fetch('/auth/firebase', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    idToken: idToken
+                })
+            });
+
+            if (!response.ok) {
+                // ব্যাকএন্ড থেকে স্পেসিফিক এরর মেসেজ পড়ে দেখানো হবে
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Unable to complete authentication.');
+            }
+
+            window.location.href = '/dashboard';
+
+        } catch (error) {
+            console.error('Firebase Login Error:', error);
+
+            if (error.code === 'auth/popup-closed-by-user') {
+                showError('Google sign-in was cancelled.');
+            } else if (error.code === 'auth/popup-blocked') {
+                showError('Your browser blocked the Google sign-in window. Please allow pop-ups and try again.');
+            } else {
+                showError(
+                    error.message ||
+                    'Something went wrong while signing in with Google.'
+                );
+            }
+
+            setLoading(false);
+        }
     });
 </script>
+
 {% endblock %}
