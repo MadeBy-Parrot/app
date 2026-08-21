@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_login import LoginManager
 from config import Config
 from models import db, User, Site, Category, Element, ColorPalette, SiteFont
@@ -7,6 +7,17 @@ from sqlalchemy import inspect, text
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# Health check route - placed directly on app for guaranteed availability
+@app.route('/health')
+def health_check():
+    return "OK", 200
+
+# Root route - redirect to login
+@app.route('/')
+def root():
+    from flask import redirect, url_for
+    return redirect(url_for('login'))
 
 db.init_app(app)
 login_manager = LoginManager()
@@ -52,6 +63,5 @@ from routes import init_routes
 app = init_routes(app, db)
 
 if __name__ == '__main__':
-    # Render-এর জন্য পোর্ট কনফিগারেশন (ডিফল্ট 10000, লোকালি 5000)
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
